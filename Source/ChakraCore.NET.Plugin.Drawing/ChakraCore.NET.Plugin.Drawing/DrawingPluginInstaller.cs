@@ -5,16 +5,18 @@ using System.Text;
 
 namespace ChakraCore.NET.Plugin.Drawing
 {
-    public class DrawingPluginInstaller<TTexture> : Hosting.IPluginInstaller
+    public abstract class DrawingPluginInstaller<TTexture> : Hosting.IPluginInstaller
         where TTexture : ITexture
         
     {
         public string Name => "Plugin.Drawing";
 
-        public string GetSDK()
-        {
-            throw new NotImplementedException();
-        }
+        public string GetSDK() => Properties.Resources.sdk;
+
+        protected abstract IDrawingSurface<TTexture> GetDrawingSurface(SizeF size,string expetectProfileName);
+        protected abstract TTexture LoadTexutre(string name);
+        protected abstract bool IsProfileSupported(string profileName);
+
 
         public void Install(JSValue target)
         {
@@ -90,7 +92,6 @@ namespace ChakraCore.NET.Plugin.Drawing
                 (binding, obj, node) =>
                 {
                     binding.SetFunction(nameof(obj.CreateSpritBatch), obj.CreateSpritBatch);
-                    binding.SetFunction<string,TTexture>(nameof(obj.LoadTexture), obj.LoadTexture);
                 });
         }
     }
