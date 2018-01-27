@@ -13,9 +13,9 @@ export function IsProfileSupported(profileName: string): boolean {
 }
 
 export class Color {
-    public readonly value: number;
-        constructor(a: number, r: number, g: number, b: number) {
-            this.value = a << 6 + r << 4 + g << 2 + b;
+    public readonly value: string;
+        constructor(hex:string) {
+            this.value = hex;
     }
 }
 export class SpritBatch  {
@@ -29,17 +29,30 @@ export class SpritBatch  {
     End(): void {
         this.reference.End();
     }
-    DrawText(position: api.Point, text: string, color: Color): void {
-        this.reference.DrawText(position, text, color.value);
+    DrawText(position: api.Point, text: string, color: Color,penWidth:number=1): void {
+        this.reference.DrawText(position, text, color.value, penWidth);
     }
-    DrawLine(start: api.Point, end: api.Point, color: Color, penWidth: number=1): void {
-        this.reference.DrawLine(start, end, color.value, penWidth);
+    DrawLine(points:Array<api.Point> , color: Color, penWidth: number=1): void {
+        this.reference.DrawLines(points, color.value, penWidth);
     }
-    DrawRectangle(position: api.Point, size: api.Size, color: Color, isFill: boolean=false): void {
-        this.reference.DrawRectangle(position, size, color.value, isFill);
+    DrawRectangle(position: api.Point, size: api.Size, color: Color, penWidth: number = 1, isFill: boolean=false): void {
+        
+        if (isFill) {
+            this.reference.Fill(color.value, { X:position.X, Y:position.Y, Width:size.Width, Height:size.Height });
+        }
+        else {
+            let points: Array<api.Point> = new Array<api.Point>();
+            points.push(position);//top left
+            points.push({ X: position.X + size.Width, Y: position.Y });//top right
+            points.push({ X: position.X + size.Width, Y: position.Y + size.Height });//bottom right
+            points.push({ X: position.X, Y: position.Y + size.Height });//botom left
+            points.push(position);//top left
+            this.reference.DrawLines(points, color.value, penWidth);
+        }
+        
     }
-    DrawEclipse(position: api.Point, region: api.Rectangle, color: Color, isFill: boolean=false): void {
-        this.reference.DrawEclipse(position, region, color.value, isFill);
+    DrawEclipse(position: api.Point, size: api.Size, color: Color, penWidth:number=1, isFill: boolean=false): void {
+        this.reference.DrawEclipse(position, size, color.value, penWidth, isFill);
     }
     DrawImage(position: api.Point, size: api.Size, texture: api.ITexture): void {
         this.reference.DrawImage(position, size, texture);

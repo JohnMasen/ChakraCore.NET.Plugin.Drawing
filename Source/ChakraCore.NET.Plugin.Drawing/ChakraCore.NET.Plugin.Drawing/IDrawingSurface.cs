@@ -2,10 +2,11 @@
 
 namespace ChakraCore.NET.Plugin.Drawing
 {
-    public interface IDrawingSurface<TTexture> 
+    public interface IDrawingSurface<TTexture,TSprintBatch> 
         where TTexture:ITexture
+        where TSprintBatch:ISpritBatch<TTexture>
     {
-        ISpritBatch<TTexture> CreateSpritBatch();
+        TSprintBatch CreateSpritBatch();
         string GetCurrentProfile();
     }
 }

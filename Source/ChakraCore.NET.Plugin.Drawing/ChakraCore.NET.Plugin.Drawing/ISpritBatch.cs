@@ -9,12 +9,11 @@ namespace ChakraCore.NET.Plugin.Drawing
     {
         void Begin();
         void End();
-        void DrawText(PointF position, string text,int color);
-        void DrawLine(PointF start,PointF end, int color,int penWidth);
-        void DrawRectangle(PointF position,SizeF size, int color,bool isFill);
-        void DrawEclipse(PointF position,RectangleF region, int color,bool isFill);
+        void DrawText(PointF position, string text, string color,int penWidth);
+        void DrawLines(IEnumerable<PointF> points, string color,int penWidth);
+        void DrawEclipse(PointF position,SizeF region, string color, int penWidth, bool isFill);
         void DrawImage(PointF position,SizeF size,TTexture texture);
-        void Fill(int color, RectangleF region);
+        void Fill(string color, RectangleF region);
         
 
         void Translate(PointF value);

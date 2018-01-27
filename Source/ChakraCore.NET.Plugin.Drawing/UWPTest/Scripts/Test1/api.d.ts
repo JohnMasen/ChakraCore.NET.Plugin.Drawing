@@ -15,8 +15,8 @@ export interface ISpritBatch {
     Begin(): void;
     End(): void;
     DrawText(position: Point, text: string, color: string, penWidth: number): void;
-    DrawLines(points: Array<Point>, color: string, penWidth: number): void; 
-    DrawEclipse(position: Point, region: Size, color: string, penWidth: number, isFill: boolean): void; 
+    DrawLines(points: Array<Point>, color: string, penWidth: number): void;
+    DrawEclipse(position: Point, region: Size, color: string, penWidth: number, isFill: boolean): void;
     DrawImage(position: Point, size: Size, texture: ITexture): void;
     Fill(color: string, region: Rectangle): void;
     Translate(value: Point): void;
@@ -40,5 +40,5 @@ export
     GetDrawingSurface(size: Size, expetectProfileName: string): IDrawingSurface;
     LoadTexutre(resourceName: string): ITexture;
     IsProfileSupported(profileName: string): boolean;
-    LoadFont(resourceName: string): boolean; 
+    LoadFont(resourceName: string): boolean;
 }

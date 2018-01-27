@@ -3,18 +3,18 @@ export declare function GetDrawingSurface(size: api.Size, expetectProfileName: s
 export declare function LoadTexutre(name: string): api.ITexture;
 export declare function IsProfileSupported(profileName: string): boolean;
 export declare class Color {
-    readonly value: number;
-    constructor(a: number, r: number, g: number, b: number);
+    readonly value: string;
+    constructor(hex: string);
 }
 export declare class SpritBatch {
     reference: api.ISpritBatch;
     constructor(source: api.ISpritBatch);
     Begin(): void;
     End(): void;
-    DrawText(position: api.Point, text: string, color: Color): void;
-    DrawLine(start: api.Point, end: api.Point, color: Color, penWidth?: number): void;
-    DrawRectangle(position: api.Point, size: api.Size, color: Color, isFill?: boolean): void;
-    DrawEclipse(position: api.Point, region: api.Rectangle, color: Color, isFill?: boolean): void;
+    DrawText(position: api.Point, text: string, color: Color, penWidth?: number): void;
+    DrawLine(points: Array<api.Point>, color: Color, penWidth?: number): void;
+    DrawRectangle(position: api.Point, size: api.Size, color: Color, penWidth?: number, isFill?: boolean): void;
+    DrawEclipse(position: api.Point, size: api.Size, color: Color, penWidth?: number, isFill?: boolean): void;
     DrawImage(position: api.Point, size: api.Size, texture: api.ITexture): void;
     Fill(color: Color, region: api.Rectangle): void;
     Translate(value: api.Point): void;

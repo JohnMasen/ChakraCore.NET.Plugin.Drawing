@@ -1,23 +1,17 @@
-<Project Sdk="Microsoft.NET.Sdk">
-
+<Project Sdk="Microsoft.NET.Sdk" ToolsVersion="15.0">
   <PropertyGroup>
     <TargetFramework>netstandard1.4</TargetFramework>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <OldToolsVersion>2.0</OldToolsVersion>
   </PropertyGroup>
-
-  <ItemGroup>
-    <None Remove="sdk.d.ts" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Content Include="sdk.d.ts" />
-  </ItemGroup>
-
   <ItemGroup>
     <PackageReference Include="ChakraCore.NET" Version="1.2.6" />
     <PackageReference Include="ChakraCore.NET.Hosting" Version="1.0.0" />
     <PackageReference Include="System.Drawing.Primitives" Version="4.3.0" />
   </ItemGroup>
-
   <ItemGroup>
     <Compile Update="Properties\Resources.Designer.cs">
       <DesignTime>True</DesignTime>
@@ -25,12 +19,10 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
   </ItemGroup>
-
   <ItemGroup>
     <EmbeddedResource Update="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
-
 </Project>
