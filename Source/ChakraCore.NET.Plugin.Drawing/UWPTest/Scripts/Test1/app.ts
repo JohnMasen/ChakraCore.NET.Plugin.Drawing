@@ -7,7 +7,7 @@ export
     spritBatch: sdk.SpritBatch;
     public Draw() {
         let sb = this.spritBatch;
-        
+        sb.Begin(sdk.BlendModeEnum.Normal);
         this.test1();
         sb.PushMatrix();
 
@@ -22,11 +22,12 @@ export
         }
         sb.PopMatrix();
         this.test2();
+        sb.End();
     }
     private test2() {
         let sb = this.spritBatch;
         
-        sb.DrawImage({ X: 100, Y: 100 }, this.TArrow.GetSize(), this.TArrow);
+        sb.DrawImage({ X: 100, Y: 100 }, this.TArrow.GetSize(), this.TArrow,0.2);
     }
     private test1() {
         let sb = this.spritBatch;
@@ -41,7 +42,9 @@ export
     public Init() {
         this.surface = sdk.GetDrawingSurface({ Width: 640, Height: 480 }, "0.1");
         this.spritBatch = this.surface.CreateSpritBatch();
+        this.spritBatch.Begin(sdk.BlendModeEnum.Normal);
         this.spritBatch.Fill(new sdk.Color("#ff000000"), { X: 0, Y: 0, Width: 640, Height: 480 });
+        this.spritBatch.End();
         this.TArrow = sdk.LoadTexutre("arrow.jpg");
     }
 }

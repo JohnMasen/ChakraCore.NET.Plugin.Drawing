@@ -78,6 +78,25 @@ namespace ChakraCore.NET.Plugin.Drawing
                         , jsvalue.ReadProperty<float>("Height"));
                 });
             converter.RegisterArrayConverter<PointF>();
+
+            converter.RegisterConverter<BlendModeEnum>(
+                (node,value)=>
+                {
+                    return node.GetService<IContextSwitchService>().With(() =>
+                    {
+                        return API.JavaScriptValue.FromInt32((int)value);
+                    });
+                },
+                (node,jsvalue)=>
+                {
+                    return node.GetService<IContextSwitchService>().With(() =>
+                    {
+                        return (BlendModeEnum)jsvalue.ToInt32();
+                    });
+                }
+
+
+                );
         }
 
         private void registerTTexture(IJSValueConverterService converter)
@@ -97,7 +116,7 @@ namespace ChakraCore.NET.Plugin.Drawing
                     binding.SetMethod<PointF,string,string,int>(nameof(obj.DrawText), obj.DrawText);
                     binding.SetMethod<IEnumerable<PointF>, string, int>(nameof(obj.DrawLines), obj.DrawLines);
                     binding.SetMethod<PointF, SizeF, string, int, bool>(nameof(obj.DrawEclipse), obj.DrawEclipse);
-                    binding.SetMethod<PointF, SizeF, TTexture>(nameof(obj.DrawImage), obj.DrawImage);
+                    binding.SetMethod<PointF, SizeF, TTexture,float>(nameof(obj.DrawImage), obj.DrawImage);
                     binding.SetMethod<string, RectangleF>(nameof(obj.Fill), obj.Fill);
                     binding.SetMethod<PointF>(nameof(obj.Translate), obj.Translate);
                     binding.SetMethod<PointF>(nameof(obj.Scale), obj.Scale);
@@ -105,6 +124,8 @@ namespace ChakraCore.NET.Plugin.Drawing
                     binding.SetFunction<int>(nameof(obj.PushMatrix), obj.PushMatrix);
                     binding.SetFunction<int>(nameof(obj.PopMatrix), obj.PopMatrix);
                     binding.SetMethod(nameof(obj.ResetMatrix), obj.ResetMatrix);
+                    binding.SetMethod<BlendModeEnum>(nameof(obj.Begin), obj.Begin);
+                    binding.SetMethod(nameof(obj.End), obj.End);
                 }
                 );
         }

@@ -7,12 +7,12 @@ namespace ChakraCore.NET.Plugin.Drawing
 {
     public interface ISpritBatch< TTexture> where TTexture:ITexture 
     {
-        void Begin();
+        void Begin(BlendModeEnum blend);
         void End();
         void DrawText(PointF position, string text, string color,int penWidth);
         void DrawLines(IEnumerable<PointF> points, string color,int penWidth);
         void DrawEclipse(PointF position,SizeF region, string color, int penWidth, bool isFill);
-        void DrawImage(PointF position,SizeF size,TTexture texture);
+        void DrawImage(PointF position,SizeF size,TTexture texture,float opacity);
         void Fill(string color, RectangleF region);
         
 
