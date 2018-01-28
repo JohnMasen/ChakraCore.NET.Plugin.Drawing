@@ -24,5 +24,10 @@ namespace ChakraCore.NET.Plugin.Drawing.ImageSharp
         {
             return "0.1";
         }
+
+        public ImageSharpTexture SaveToTexture()
+        {
+            return new ImageSharpTexture(Image.Clone());
+        }
     }
 }

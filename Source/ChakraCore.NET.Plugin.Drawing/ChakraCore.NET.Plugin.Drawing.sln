@@ -1,11 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Blend for Visual Studio 15
+# Visual Studio 15
 VisualStudioVersion = 15.0.27130.2024
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChakraCore.NET.Plugin.Drawing", "ChakraCore.NET.Plugin.Drawing\ChakraCore.NET.Plugin.Drawing.csproj", "{7A0DDD62-C87B-4145-99A3-AFC9379FF683}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ChakraCore.NET.Plugin.Drawing", "ChakraCore.NET.Plugin.Drawing\ChakraCore.NET.Plugin.Drawing.csproj", "{7A0DDD62-C87B-4145-99A3-AFC9379FF683}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChakraCore.NET.Plugin.Drawing.ImageSharp", "ChakraCore.NET.Plugin.Drawing.ImageSharp\ChakraCore.NET.Plugin.Drawing.ImageSharp.csproj", "{B6495DDE-F320-4598-8F35-B66DC46BD0F0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ChakraCore.NET.Plugin.Drawing.ImageSharp", "ChakraCore.NET.Plugin.Drawing.ImageSharp\ChakraCore.NET.Plugin.Drawing.ImageSharp.csproj", "{B6495DDE-F320-4598-8F35-B66DC46BD0F0}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UWPTest", "UWPTest\UWPTest.csproj", "{BB7E9029-4A4F-4F37-9F94-5E567A9CDF28}"
 EndProject
@@ -66,6 +66,8 @@ Global
 		{BB7E9029-4A4F-4F37-9F94-5E567A9CDF28}.Debug|x86.Build.0 = Debug|x86
 		{BB7E9029-4A4F-4F37-9F94-5E567A9CDF28}.Debug|x86.Deploy.0 = Debug|x86
 		{BB7E9029-4A4F-4F37-9F94-5E567A9CDF28}.Release|Any CPU.ActiveCfg = Release|x86
+		{BB7E9029-4A4F-4F37-9F94-5E567A9CDF28}.Release|Any CPU.Build.0 = Release|x86
+		{BB7E9029-4A4F-4F37-9F94-5E567A9CDF28}.Release|Any CPU.Deploy.0 = Release|x86
 		{BB7E9029-4A4F-4F37-9F94-5E567A9CDF28}.Release|ARM.ActiveCfg = Release|ARM
 		{BB7E9029-4A4F-4F37-9F94-5E567A9CDF28}.Release|ARM.Build.0 = Release|ARM
 		{BB7E9029-4A4F-4F37-9F94-5E567A9CDF28}.Release|ARM.Deploy.0 = Release|ARM

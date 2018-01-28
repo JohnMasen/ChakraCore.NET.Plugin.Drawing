@@ -9,6 +9,6 @@ namespace ChakraCore.NET.Plugin.Drawing.ImageSharp
         {
             Image = image;
         }
-        public SizeF Size => new SizeF(Image.Height, Image.Width);
+        public SizeF GetSize => new SizeF(Image.Width,Image.Height );
     }
 }

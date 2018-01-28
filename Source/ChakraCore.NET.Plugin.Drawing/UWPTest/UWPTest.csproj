@@ -42,7 +42,7 @@
     <UseVSHostingProcess>false</UseVSHostingProcess>
     <ErrorReport>prompt</ErrorReport>
     <Prefer32Bit>true</Prefer32Bit>
-    <UseDotNetNativeToolchain>true</UseDotNetNativeToolchain>
+    <UseDotNetNativeToolchain>false</UseDotNetNativeToolchain>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|ARM'">
     <DebugSymbols>true</DebugSymbols>
@@ -119,6 +119,7 @@
     <Content Include="Assets\StoreLogo.png" />
     <Content Include="Assets\Wide310x150Logo.scale-200.png" />
     <Content Include="Scripts\Test1\app.js" />
+    <Content Include="Scripts\Test1\arrow.jpg" />
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">
@@ -171,8 +172,10 @@
     <None Include="Scripts\Test1\app.ts" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Scripts\Test1\api.d.ts" />
     <None Include="Scripts\Test1\sdk%40Plugin.Drawing.d.ts" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Scripts\api.d.ts" />
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>15.0</VisualStudioVersion>

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Threading.Tasks;
 using ChakraCore.NET.Hosting;
@@ -25,6 +26,7 @@ namespace UWPTest.ViewModel
     public class MainViewModel : ViewModelBase
     {
         public IEnumerable<DirectoryInfo> Folders { get; private set; }
+        public string Info { get; private set; }
         JSDrawApp currentApp;
         private ImageSharpDrawingInstaller imageSharpEngine;
         private void RefreshFolders()
@@ -59,8 +61,13 @@ namespace UWPTest.ViewModel
 
         public RelayCommand Run => new RelayCommand(async () =>
            {
+               Stopwatch stopwatch = new Stopwatch();
+               stopwatch.Start();
                currentApp.Draw();
+               stopwatch.Stop();
+               Info = $"draw cost {stopwatch.ElapsedMilliseconds} ms";
                await updateOutput();
+               await notifyChangedOnUI(nameof(Info));
            });
         private async Task updateOutput()
         {
@@ -69,15 +76,19 @@ namespace UWPTest.ViewModel
             stream.Position = 0;
             var bii = await BitmapFactory.FromStream(stream);
             ImageSharpOutput = bii;
-            await UIDispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () => 
-            {
-                RaisePropertyChanged(nameof(ImageSharpOutput));
-            });
+            await notifyChangedOnUI(nameof(ImageSharpOutput));
         }
         
 
         
         public ImageSource ImageSharpOutput { get; private set; }
 
+        private async Task notifyChangedOnUI(string propertyName)
+        {
+            await UIDispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
+            {
+                RaisePropertyChanged(propertyName);
+            });
+        }
     }
 }

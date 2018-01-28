@@ -7,6 +7,6 @@ namespace ChakraCore.NET.Plugin.Drawing
 {
     public interface ITexture
     {
-        SizeF Size { get; }
+        SizeF GetSize { get; }
     }
 }

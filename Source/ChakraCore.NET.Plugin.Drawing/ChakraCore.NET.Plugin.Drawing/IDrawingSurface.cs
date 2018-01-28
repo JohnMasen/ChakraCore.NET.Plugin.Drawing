@@ -8,5 +8,6 @@ namespace ChakraCore.NET.Plugin.Drawing
     {
         TSprintBatch CreateSpritBatch();
         string GetCurrentProfile();
+        TTexture SaveToTexture();
     }
 }

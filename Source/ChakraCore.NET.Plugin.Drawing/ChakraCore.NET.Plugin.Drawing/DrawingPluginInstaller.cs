@@ -85,7 +85,7 @@ namespace ChakraCore.NET.Plugin.Drawing
             converter.RegisterProxyConverter<TTexture>(
                 (binding, obj, node) =>
                 {
-                    binding.SetFunction<SizeF>("GetSize", () => obj.Size);
+                    binding.SetFunction<SizeF>(nameof(obj.GetSize), () => obj.GetSize);
                 });
         }
 

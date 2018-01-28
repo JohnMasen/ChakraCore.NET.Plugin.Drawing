@@ -13,17 +13,18 @@
     <Grid Background="White">
         <Grid.RowDefinitions>
             <RowDefinition Height="151*"/>
-            <RowDefinition Height="849*"/>
+            <RowDefinition Height="795*"/>
+            <RowDefinition Height="54*"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="379*"/>
             <ColumnDefinition Width="1121*"/>
         </Grid.ColumnDefinitions>
-        <ListView x:Name="lstFolders" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.RowSpan="2" ItemsSource="{Binding Path=Folders}" SelectedItem="{Binding Path=SelectedItem, Mode=TwoWay}"/>
+        <ListView x:Name="lstFolders" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.RowSpan="2" SelectedItem="{Binding Path=SelectedItem, Mode=TwoWay}" ItemsSource="{Binding Path=Folders}"/>
         <Viewbox Grid.Row="1" Grid.Column="1">
             <Image HorizontalAlignment="Stretch" VerticalAlignment="Stretch"  Source="{Binding Path=ImageSharpOutput}"/>
         </Viewbox>
-        
+
         <Grid Grid.Column="1" >
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
@@ -33,6 +34,7 @@
             <Button x:Name="btnRun" Content="Run" Grid.Column="1" HorizontalAlignment="Stretch"  VerticalAlignment="Stretch" Command="{Binding Path=Run}"/>
             <Button x:Name="btnLoad" Content="Load" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Command="{Binding Path=Load}"/>
         </Grid>
+        <TextBlock Grid.ColumnSpan="2" HorizontalAlignment="Stretch" TextWrapping="Wrap" VerticalAlignment="Stretch" Grid.Row="2" FontSize="20" Text="{Binding Path=Info}"/>
 
     </Grid>
 </Page>

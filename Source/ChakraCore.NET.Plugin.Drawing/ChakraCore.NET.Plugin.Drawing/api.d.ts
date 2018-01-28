@@ -27,12 +27,13 @@ export interface ISpritBatch {
     ResetMatrix(): void;
 }
 export interface ITexture {
-    Size: Size;
+    GetSize(): Size;
 }
 
 export interface IDrawingSurface {
     CreateSpritBatch(): ISpritBatch;
     GetCurrentProfile(): string;
+    SaveToTexture(): ITexture; 
 }
 
 export
