@@ -9,6 +9,14 @@
       x:Class="UWPTest.MainPage"
       mc:Ignorable="d ignore"
       DataContext="{Binding Main, Source={StaticResource Locator}}">
+    <Page.Resources>
+        <DataTemplate x:Key="ListViewItemTemplate1">
+            <Grid>
+                <TextBlock Text="{Binding Path=Name}"/>
+            </Grid>
+        </DataTemplate>
+        
+    </Page.Resources>
 
     <Grid Background="White">
         <Grid.RowDefinitions>
@@ -20,7 +28,11 @@
             <ColumnDefinition Width="379*"/>
             <ColumnDefinition Width="1121*"/>
         </Grid.ColumnDefinitions>
-        <ListView x:Name="lstFolders" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.RowSpan="2" SelectedItem="{Binding Path=SelectedItem, Mode=TwoWay}" ItemsSource="{Binding Path=Folders}"/>
+        <StackPanel Grid.RowSpan="2">
+            <Button x:Name="btnSetRoot" HorizontalAlignment="Stretch" Content="Set Root" Command="{Binding Path=ChooseRoot}"/>
+            <ListView ItemTemplate="{StaticResource ListViewItemTemplate1}"  x:Name="lstFolders" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"  SelectedItem="{Binding Path=SelectedItem, Mode=TwoWay}" ItemsSource="{Binding Path=Folders}"/>
+        </StackPanel>
+        
         <Viewbox Grid.Row="1" Grid.Column="1">
             <Image HorizontalAlignment="Stretch" VerticalAlignment="Stretch"  Source="{Binding Path=ImageSharpOutput}"/>
         </Viewbox>

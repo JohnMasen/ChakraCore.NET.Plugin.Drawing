@@ -13,6 +13,15 @@ namespace UWPTest
             Reference.CallMethod("Init");
         }
 
+        public Task InitAsync()
+        {
+            return Task.Factory.StartNew(() =>
+            {
+                Reference.CallMethod("Init");
+            });
+            
+        }
+
         public void Draw()
         {
             Reference.CallMethod("Draw");

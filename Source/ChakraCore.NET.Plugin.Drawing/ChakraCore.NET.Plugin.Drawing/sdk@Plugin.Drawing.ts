@@ -35,12 +35,16 @@ export interface IDrawingSurface {
     GetCurrentProfile(): string;
     SaveToTexture(): ITexture;
 }
+export interface Font {
+    Name: string;
+    Size: number;
+}
 
     interface INativeAPI {
     GetDrawingSurface(size: Size, expetectProfileName: string): IDrawingSurface;
-    LoadTexutre(resourceName: string): ITexture;
+    LoadTexture(resourceName: string): ITexture;
     IsProfileSupported(profileName: string): boolean;
-    LoadFont(resourceName: string): boolean;
+    LoadFont(resourceName: string):Font;
 }
 declare function RequireNative(name: string): INativeAPI;
 let native = RequireNative("Plugin.Drawing");
@@ -136,8 +140,8 @@ export enum BlendModeEnum {
 export function GetDrawingSurface(size: Size, expetectProfileName: string): DrawingSurface {
     return new DrawingSurface( native.GetDrawingSurface(size, expetectProfileName));
 }
-export function LoadTexutre(name: string): ITexture {
-    return native.LoadTexutre(name);
+export function LoadTexture(name: string): ITexture {
+    return native.LoadTexture(name);
 }
 
 export function IsProfileSupported(profileName: string): boolean {

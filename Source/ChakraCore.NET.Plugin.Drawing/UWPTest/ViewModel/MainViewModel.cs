@@ -11,9 +11,12 @@ using GalaSoft.MvvmLight.Messaging;
 using GalaSoft.MvvmLight.Threading;
 using GalaSoft.MvvmLight.Views;
 using SixLabors.ImageSharp;
+using Windows.Storage.Pickers;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
 using static GalaSoft.MvvmLight.Threading.DispatcherHelper;
+using System.Linq;
+using Windows.Storage;
 
 namespace UWPTest.ViewModel
 {
@@ -25,39 +28,81 @@ namespace UWPTest.ViewModel
     /// </summary>
     public class MainViewModel : ViewModelBase
     {
-        public IEnumerable<DirectoryInfo> Folders { get; private set; }
-        public string Info { get; private set; }
+        public IEnumerable<StorageFolder> Folders { get; private set; }
+        /// <summary>
+        /// The <see cref="Info" /> property's name.
+        /// </summary>
+        public const string InfoPropertyName = "Info";
+
+        private string _info = string.Empty;
+
+        /// <summary>
+        /// Sets and gets the Info property.
+        /// Changes to that property's value raise the PropertyChanged event. 
+        /// </summary>
+        public string Info
+        {
+            get
+            {
+                return _info;
+            }
+
+            set
+            {
+                if (_info == value)
+                {
+                    return;
+                }
+
+                _info = value;
+                RaisePropertyChanged(() => Info);
+            }
+        }
         JSDrawApp currentApp;
         private ImageSharpDrawingInstaller imageSharpEngine;
-        private void RefreshFolders()
+        
+        
+
+        public StorageFolder SelectedItem { get; set; }
+
+        public RelayCommand Load => new RelayCommand(async () =>
+       {
+           Info = string.Empty;
+           if (SelectedItem == null)
+           {
+               return;
+           }
+           //string rootFolder = SelectedItem.FullName;
+           imageSharpEngine = new ImageSharpDrawingInstaller();
+           //imageSharpEngine.TextureLoader.Add(loadTexture);
+           imageSharpEngine.SetTextureRoot(SelectedItem);
+
+           JavaScriptHostingConfig config = new JavaScriptHostingConfig();
+           config.ModuleFileLoaders.Add(loadModule);
+           config.AddPlugin(imageSharpEngine);
+           currentApp = await JavaScriptHosting.Default.GetModuleClassAsync<JSDrawApp>("app", "App", config);
+           await currentApp.InitAsync();
+           Info = "Loaded";
+       });
+
+
+        private string loadModule(string name)
         {
-            DirectoryInfo info = new DirectoryInfo("Scripts");
-            Folders = info.GetDirectories();
-            RaisePropertyChanged(nameof(Folders));
-        }
-        public MainViewModel()
-        {
-            RefreshFolders();
+            var t = loadModuleAsync(name);
+            t.Wait();
+            return t.Result;
         }
 
-        public DirectoryInfo SelectedItem { get; set; }
-
-        public RelayCommand Load  => new RelayCommand(() => 
+        private async Task<string> loadModuleAsync(string name)
         {
-            if (SelectedItem==null)
+            using (var file=await SelectedItem.OpenStreamForReadAsync($"{name}.js"))
             {
-                return;
-            }
-            string rootFolder = SelectedItem.FullName;
-            imageSharpEngine = new ImageSharpDrawingInstaller(rootFolder);
-            
-            JavaScriptHostingConfig config = new JavaScriptHostingConfig();
-            config.AddModuleFolder(rootFolder);
-            config.AddPlugin(imageSharpEngine);
-            currentApp = JavaScriptHosting.Default.GetModuleClass<JSDrawApp>("app", "App", config);
-            currentApp.Init();
-        });
-
+                using (var reader = new StreamReader(file))
+                {
+                    return reader.ReadToEnd();
+                }
+            } 
+        }
 
         public RelayCommand Run => new RelayCommand(async () =>
            {
@@ -67,7 +112,6 @@ namespace UWPTest.ViewModel
                stopwatch.Stop();
                Info = $"draw cost {stopwatch.ElapsedMilliseconds} ms";
                await updateOutput();
-               await notifyChangedOnUI(nameof(Info));
            });
         private async Task updateOutput()
         {
@@ -76,19 +120,28 @@ namespace UWPTest.ViewModel
             stream.Position = 0;
             var bii = await BitmapFactory.FromStream(stream);
             ImageSharpOutput = bii;
-            await notifyChangedOnUI(nameof(ImageSharpOutput));
+            RaisePropertyChanged(nameof(ImageSharpOutput));
         }
-        
+
+        public RelayCommand ChooseRoot =>new RelayCommand(async ()=>
+        {
+            FolderPicker picker = new FolderPicker();
+            picker.FileTypeFilter.Add("*");
+            var result=await picker.PickSingleFolderAsync();
+            if (result!=null)
+            {
+                Folders = await result.GetFoldersAsync();
+
+                RaisePropertyChanged(nameof(Folders));
+
+            }
+            
+
+        });
 
         
         public ImageSource ImageSharpOutput { get; private set; }
 
-        private async Task notifyChangedOnUI(string propertyName)
-        {
-            await UIDispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
-            {
-                RaisePropertyChanged(propertyName);
-            });
-        }
+        
     }
 }

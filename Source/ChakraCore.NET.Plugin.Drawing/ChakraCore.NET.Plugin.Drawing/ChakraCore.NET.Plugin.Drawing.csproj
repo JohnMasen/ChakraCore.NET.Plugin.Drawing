@@ -6,9 +6,13 @@
     <UpgradeBackupLocation>
     </UpgradeBackupLocation>
     <OldToolsVersion>2.0</OldToolsVersion>
+    <Version>0.1.0</Version>
+    <PackageReleaseNotes>initial version</PackageReleaseNotes>
+    <Description>provide abstract drawing api to javascript</Description>
+    <AssemblyVersion>0.1.0.0</AssemblyVersion>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="ChakraCore.NET" Version="1.2.6" />
+    <PackageReference Include="ChakraCore.NET" Version="1.2.7" />
     <PackageReference Include="ChakraCore.NET.Hosting" Version="1.0.0" />
     <PackageReference Include="System.Drawing.Primitives" Version="4.3.0" />
   </ItemGroup>

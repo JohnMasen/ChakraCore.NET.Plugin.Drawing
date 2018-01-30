@@ -36,6 +36,6 @@ export class App {
         this.spritBatch.Begin(sdk.BlendModeEnum.Normal);
         this.spritBatch.Fill(new sdk.Color("#ff000000"), { X: 0, Y: 0, Width: 640, Height: 480 });
         this.spritBatch.End();
-        this.TArrow = sdk.LoadTexutre("arrow.jpg");
+        this.TArrow = sdk.LoadTexture("arrow.jpg");
     }
 }

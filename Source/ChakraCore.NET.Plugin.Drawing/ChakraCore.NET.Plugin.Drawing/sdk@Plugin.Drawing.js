@@ -90,8 +90,8 @@ export var BlendModeEnum;
 export function GetDrawingSurface(size, expetectProfileName) {
     return new DrawingSurface(native.GetDrawingSurface(size, expetectProfileName));
 }
-export function LoadTexutre(name) {
-    return native.LoadTexutre(name);
+export function LoadTexture(name) {
+    return native.LoadTexture(name);
 }
 export function IsProfileSupported(profileName) {
     return native.IsProfileSupported(profileName);

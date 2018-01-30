@@ -31,6 +31,10 @@ export interface IDrawingSurface {
     GetCurrentProfile(): string;
     SaveToTexture(): ITexture;
 }
+export interface Font {
+    Name: string;
+    Size: number;
+}
 export declare enum BlendModeEnum {
     Normal = 0,
     Multiply = 1,
@@ -55,7 +59,7 @@ export declare enum BlendModeEnum {
     Xor = 20,
 }
 export declare function GetDrawingSurface(size: Size, expetectProfileName: string): DrawingSurface;
-export declare function LoadTexutre(name: string): ITexture;
+export declare function LoadTexture(name: string): ITexture;
 export declare function IsProfileSupported(profileName: string): boolean;
 export declare class Color {
     readonly value: string;
