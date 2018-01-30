@@ -1,5 +1,48 @@
-﻿import * as api  from "api";
-declare function RequireNative(name: string): api.INativeAPI;
+﻿export interface Point {
+    X: number;
+    Y: number;
+}
+
+export interface Size {
+    Width: number;
+    Height: number;
+}
+
+export interface Rectangle extends Point, Size {
+
+}
+export interface ISpritBatch {
+    Begin(blend: number): void;
+    End(): void;
+    DrawText(position: Point, text: string, color: string, penWidth: number): void;
+    DrawLines(points: Array<Point>, color: string, penWidth: number): void;
+    DrawEclipse(position: Point, region: Size, color: string, penWidth: number, isFill: boolean): void;
+    DrawImage(position: Point, size: Size, texture: ITexture, opacity: number): void;
+    Fill(color: string, region: Rectangle): void;
+    Translate(value: Point): void;
+    Scale(value: Point): void;
+    Rotate(angel: number): void;
+    PushMatrix(): number;
+    PopMatrix(): number;
+    ResetMatrix(): void;
+}
+export interface ITexture {
+    GetSize(): Size;
+}
+
+export interface IDrawingSurface {
+    CreateSpritBatch(): ISpritBatch;
+    GetCurrentProfile(): string;
+    SaveToTexture(): ITexture;
+}
+
+    interface INativeAPI {
+    GetDrawingSurface(size: Size, expetectProfileName: string): IDrawingSurface;
+    LoadTexutre(resourceName: string): ITexture;
+    IsProfileSupported(profileName: string): boolean;
+    LoadFont(resourceName: string): boolean;
+}
+declare function RequireNative(name: string): INativeAPI;
 let native = RequireNative("Plugin.Drawing");
 
 export enum BlendModeEnum {
@@ -90,10 +133,10 @@ export enum BlendModeEnum {
     Xor = 20
 }
 
-export function GetDrawingSurface(size: api.Size, expetectProfileName: string): DrawingSurface {
+export function GetDrawingSurface(size: Size, expetectProfileName: string): DrawingSurface {
     return new DrawingSurface( native.GetDrawingSurface(size, expetectProfileName));
 }
-export function LoadTexutre(name: string): api.ITexture {
+export function LoadTexutre(name: string): ITexture {
     return native.LoadTexutre(name);
 }
 
@@ -109,8 +152,8 @@ export class Color {
 }
 
 export class SpritBatch  {
-    reference: api.ISpritBatch;
-    constructor(source: api.ISpritBatch) {
+    private reference: ISpritBatch;
+    constructor(source: ISpritBatch) {
         this.reference = source;
     }
     Begin(blend:BlendModeEnum): void {
@@ -119,19 +162,19 @@ export class SpritBatch  {
     End(): void {
         this.reference.End();
     }
-    DrawText(position: api.Point, text: string, color: Color,penWidth:number=1): void {
+    DrawText(position: Point, text: string, color: Color,penWidth:number=1): void {
         this.reference.DrawText(position, text, color.value, penWidth);
     }
-    DrawLine(points:Array<api.Point> , color: Color, penWidth: number=1): void {
+    DrawLine(points:Array<Point> , color: Color, penWidth: number=1): void {
         this.reference.DrawLines(points, color.value, penWidth);
     }
-    DrawRectangle(position: api.Point, size: api.Size, color: Color, penWidth: number = 1, isFill: boolean=false): void {
+    DrawRectangle(position: Point, size: Size, color: Color, penWidth: number = 1, isFill: boolean=false): void {
         
         if (isFill) {
             this.reference.Fill(color.value, { X:position.X, Y:position.Y, Width:size.Width, Height:size.Height });
         }
         else {
-            let points: Array<api.Point> = new Array<api.Point>();
+            let points: Array<Point> = new Array<Point>();
             points.push(position);//top left
             points.push({ X: position.X + size.Width, Y: position.Y });//top right
             points.push({ X: position.X + size.Width, Y: position.Y + size.Height });//bottom right
@@ -141,19 +184,19 @@ export class SpritBatch  {
         }
         
     }
-    DrawEclipse(position: api.Point, size: api.Size, color: Color, penWidth:number=1, isFill: boolean=false): void {
+    DrawEclipse(position: Point, size: Size, color: Color, penWidth:number=1, isFill: boolean=false): void {
         this.reference.DrawEclipse(position, size, color.value, penWidth, isFill);
     }
-    DrawImage(position: api.Point, size: api.Size, texture: api.ITexture, opacity:number): void {
+    DrawImage(position: Point, size: Size, texture: ITexture, opacity:number): void {
         this.reference.DrawImage(position, size, texture,opacity);
     }
-    Fill(color: Color, region: api.Rectangle): void {
+    Fill(color: Color, region: Rectangle): void {
         this.reference.Fill(color.value, region);
     }
-    Translate(value: api.Point): void {
+    Translate(value: Point): void {
         this.reference.Translate(value);
     }
-    Scale(value: api.Point): void {
+    Scale(value: Point): void {
         this.reference.Scale(value);
     }
     Rotate(angel: number): void {
@@ -172,8 +215,8 @@ export class SpritBatch  {
 }
 
 export class DrawingSurface {
-    reference: api.IDrawingSurface;
-    constructor(source: api.IDrawingSurface) {
+    private reference: IDrawingSurface;
+    constructor(source: IDrawingSurface) {
         this.reference = source;
     }
     CreateSpritBatch(): SpritBatch {

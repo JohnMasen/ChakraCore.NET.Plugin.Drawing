@@ -1,8 +1,7 @@
 ﻿import * as sdk from 'sdk@Plugin.Drawing';
-import { Point, ITexture } from 'api';
 export 
     class App {
-    TArrow: ITexture;
+    TArrow: sdk.ITexture;
     surface: sdk.DrawingSurface;
     spritBatch: sdk.SpritBatch;
     public Draw() {
@@ -33,7 +32,7 @@ export
         let sb = this.spritBatch;
         let black = new sdk.Color("#ff000000");
         let white = new sdk.Color("#ffffffff");
-        let points: Array<Point> = [{ X: 0, Y: 0 }, { X: 100, Y: 100 }];
+        let points: Array<sdk.Point> = [{ X: 0, Y: 0 }, { X: 100, Y: 100 }];
         sb.DrawLine(points, white);
         sb.DrawRectangle({ X: 0, Y: 0 }, { Width: 100, Height: 100 }, white);
         sb.DrawEclipse({ X: 50, Y: 50 }, { Width: 100, Height: 100 }, white);

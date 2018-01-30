@@ -1,4 +1,36 @@
-import * as api from "api";
+export interface Point {
+    X: number;
+    Y: number;
+}
+export interface Size {
+    Width: number;
+    Height: number;
+}
+export interface Rectangle extends Point, Size {
+}
+export interface ISpritBatch {
+    Begin(blend: number): void;
+    End(): void;
+    DrawText(position: Point, text: string, color: string, penWidth: number): void;
+    DrawLines(points: Array<Point>, color: string, penWidth: number): void;
+    DrawEclipse(position: Point, region: Size, color: string, penWidth: number, isFill: boolean): void;
+    DrawImage(position: Point, size: Size, texture: ITexture, opacity: number): void;
+    Fill(color: string, region: Rectangle): void;
+    Translate(value: Point): void;
+    Scale(value: Point): void;
+    Rotate(angel: number): void;
+    PushMatrix(): number;
+    PopMatrix(): number;
+    ResetMatrix(): void;
+}
+export interface ITexture {
+    GetSize(): Size;
+}
+export interface IDrawingSurface {
+    CreateSpritBatch(): ISpritBatch;
+    GetCurrentProfile(): string;
+    SaveToTexture(): ITexture;
+}
 export declare enum BlendModeEnum {
     Normal = 0,
     Multiply = 1,
@@ -22,34 +54,34 @@ export declare enum BlendModeEnum {
     Clear = 19,
     Xor = 20,
 }
-export declare function GetDrawingSurface(size: api.Size, expetectProfileName: string): DrawingSurface;
-export declare function LoadTexutre(name: string): api.ITexture;
+export declare function GetDrawingSurface(size: Size, expetectProfileName: string): DrawingSurface;
+export declare function LoadTexutre(name: string): ITexture;
 export declare function IsProfileSupported(profileName: string): boolean;
 export declare class Color {
     readonly value: string;
     constructor(hex: string);
 }
 export declare class SpritBatch {
-    reference: api.ISpritBatch;
-    constructor(source: api.ISpritBatch);
+    private reference;
+    constructor(source: ISpritBatch);
     Begin(blend: BlendModeEnum): void;
     End(): void;
-    DrawText(position: api.Point, text: string, color: Color, penWidth?: number): void;
-    DrawLine(points: Array<api.Point>, color: Color, penWidth?: number): void;
-    DrawRectangle(position: api.Point, size: api.Size, color: Color, penWidth?: number, isFill?: boolean): void;
-    DrawEclipse(position: api.Point, size: api.Size, color: Color, penWidth?: number, isFill?: boolean): void;
-    DrawImage(position: api.Point, size: api.Size, texture: api.ITexture, opacity: number): void;
-    Fill(color: Color, region: api.Rectangle): void;
-    Translate(value: api.Point): void;
-    Scale(value: api.Point): void;
+    DrawText(position: Point, text: string, color: Color, penWidth?: number): void;
+    DrawLine(points: Array<Point>, color: Color, penWidth?: number): void;
+    DrawRectangle(position: Point, size: Size, color: Color, penWidth?: number, isFill?: boolean): void;
+    DrawEclipse(position: Point, size: Size, color: Color, penWidth?: number, isFill?: boolean): void;
+    DrawImage(position: Point, size: Size, texture: ITexture, opacity: number): void;
+    Fill(color: Color, region: Rectangle): void;
+    Translate(value: Point): void;
+    Scale(value: Point): void;
     Rotate(angel: number): void;
     PushMatrix(): number;
     PopMatrix(): number;
     ResetMatrix(): void;
 }
 export declare class DrawingSurface {
-    reference: api.IDrawingSurface;
-    constructor(source: api.IDrawingSurface);
+    private reference;
+    constructor(source: IDrawingSurface);
     CreateSpritBatch(): SpritBatch;
     GetCurrentProfile(): string;
 }

@@ -172,13 +172,7 @@
     <None Include="Scripts\Test1\app.ts" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Scripts\api.d.ts" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Scripts\sdk%40Plugin.Drawing.d.ts" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Scripts\sdk%40Plugin.Drawing.ts" />
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>15.0</VisualStudioVersion>
