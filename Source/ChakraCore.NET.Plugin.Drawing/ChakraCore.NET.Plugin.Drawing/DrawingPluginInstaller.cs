@@ -20,6 +20,16 @@ namespace ChakraCore.NET.Plugin.Drawing
         protected abstract TDrawingSurface GetDrawingSurface(SizeF size,string expetectProfileName);
         protected abstract bool IsProfileSupported(string profileName);
 
+        protected virtual Font LoadFont(string resourceName)
+        {
+            return FontLoader.Process(resourceName);
+        }
+
+        protected virtual TTexture LoadTexture(string resourceName)
+        {
+            return TextureLoader.Process(resourceName);
+        }
+
         public void Install(JSValue target)
         {
             var converter = target.ServiceNode.GetService<IJSValueConverterService>();
@@ -29,9 +39,9 @@ namespace ChakraCore.NET.Plugin.Drawing
             registerTDrawingSurface(converter);
             registerFont(converter);
             target.Binding.SetFunction<SizeF,string, TDrawingSurface>(nameof(GetDrawingSurface), GetDrawingSurface);
-            target.Binding.SetFunction<string, TTexture>("LoadTexture", TextureLoader.Process);
+            target.Binding.SetFunction<string, TTexture>(nameof(LoadTexture), LoadTexture);
             target.Binding.SetFunction<string, bool>(nameof(IsProfileSupported), IsProfileSupported);
-            target.Binding.SetFunction<string, Font>("LoadFont", FontLoader.Process);
+            target.Binding.SetFunction<string, Font>(nameof(LoadFont), LoadFont);
         }
 
         private void registerBasicTypes(IJSValueConverterService converter)

@@ -10,7 +10,7 @@ namespace ChakraCore.NET.Plugin.Drawing.ImageSharp
 {
     public class ImageSharpDrawingInstaller : DrawingPluginInstaller<ImageSharpDrawingSurface, ImageSharpTexture, ImageSharpSpritBatch>
     {
-        FontCollection Fonts = new FontCollection();
+        public FontCollection Fonts { get; private set; } = new FontCollection();
         public ImageSharpDrawingSurface LastDrawingSurface { get; private set; }
         protected override ImageSharpDrawingSurface GetDrawingSurface(SizeF size, string expetectProfileName)
         {
