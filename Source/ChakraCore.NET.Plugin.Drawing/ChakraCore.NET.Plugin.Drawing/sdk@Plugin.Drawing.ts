@@ -14,12 +14,12 @@ export interface Rectangle extends Point, Size {
 export interface ISpritBatch {
     Begin(blend: number): void;
     End(): void;
-    DrawText(position: Point, text: string, font:Font, color: string, penWidth: number): void;
+    DrawText(position: Point, text: string, font: Font, color: string, penWidth: number): void;
     DrawLines(points: Array<Point>, color: string, penWidth: number): void;
     DrawEclipse(position: Point, region: Size, color: string, penWidth: number, isFill: boolean): void;
     DrawImage(position: Point, size: Size, texture: ITexture, opacity: number): void;
     DrawRectangle(rect: Rectangle, color: string, penWidth: number, isFill: boolean): void;
-    DrawTriangle(a: Point, b: Point, c: Point, color: string, penWidth: number, isFill: boolean): void; 
+    DrawTriangle(a: Point, b: Point, c: Point, color: string, penWidth: number, isFill: boolean): void;
     Fill(color: string, region: Rectangle): void;
     Translate(value: Point): void;
     Scale(value: Point): void;
@@ -27,6 +27,7 @@ export interface ISpritBatch {
     PushMatrix(): number;
     PopMatrix(): number;
     ResetMatrix(): void;
+    
 }
 export interface ITexture {
     GetSize(): Size;
@@ -42,11 +43,12 @@ export interface Font {
     Size: number;
 }
 
-    interface INativeAPI {
+interface INativeAPI {
     GetDrawingSurface(size: Size, expetectProfileName: string): IDrawingSurface;
     LoadTexture(resourceName: string): ITexture;
     IsProfileSupported(profileName: string): boolean;
-    LoadFont(resourceName: string):Font;
+    LoadFont(resourceName: string): Font;
+    MeasureTextBound(text: string, font: Font): Rectangle; 
 }
 declare function RequireNative(name: string): INativeAPI;
 let native = RequireNative("Plugin.Drawing");
@@ -140,7 +142,7 @@ export enum BlendModeEnum {
 }
 
 export function GetDrawingSurface(size: Size, expetectProfileName: string): DrawingSurface {
-    return new DrawingSurface( native.GetDrawingSurface(size, expetectProfileName));
+    return new DrawingSurface(native.GetDrawingSurface(size, expetectProfileName));
 }
 export function LoadTexture(name: string): ITexture {
     return native.LoadTexture(name);
@@ -152,42 +154,45 @@ export function IsProfileSupported(profileName: string): boolean {
 export function LoadFont(filename: string): Font {
     return native.LoadFont(filename);
 }
+export function MeasureTextBound(text: string, font: Font): Rectangle {
+    return native.MeasureTextBound(text, font);
+}
 
 export class Color {
     public readonly value: string;
-        constructor(hex:string) {
-            this.value = hex;
+    constructor(hex: string) {
+        this.value = hex;
     }
 }
 
-export class SpritBatch  {
+export class SpritBatch {
     private reference: ISpritBatch;
     constructor(source: ISpritBatch) {
         this.reference = source;
     }
-    Begin(blend:BlendModeEnum): void {
+    Begin(blend: BlendModeEnum): void {
         this.reference.Begin(blend);
     }
     End(): void {
         this.reference.End();
     }
-    DrawText(position: Point, text: string,font:Font, color: Color,penWidth:number=1): void {
-        this.reference.DrawText(position, text,font, color.value, penWidth);
+    DrawText(position: Point, text: string, font: Font, color: Color, penWidth: number = 1): void {
+        this.reference.DrawText(position, text, font, color.value, penWidth);
     }
-    DrawLine(points:Array<Point> , color: Color, penWidth: number=1): void {
+    DrawLine(points: Array<Point>, color: Color, penWidth: number = 1): void {
         this.reference.DrawLines(points, color.value, penWidth);
     }
-    DrawRectangle(rect:Rectangle, color: Color, penWidth: number = 1, isFill: boolean=false): void {
+    DrawRectangle(rect: Rectangle, color: Color, penWidth: number = 1, isFill: boolean = false): void {
         this.reference.DrawRectangle(rect, color.value, penWidth, isFill);
     }
     DrawTriangle(a: Point, b: Point, c: Point, color: Color, penWidth: number = 1, isFill: boolean = false): void {
         this.reference.DrawTriangle(a, b, c, color.value, penWidth, isFill);
     }
-    DrawEclipse(position: Point, size: Size, color: Color, penWidth:number=1, isFill: boolean=false): void {
+    DrawEclipse(position: Point, size: Size, color: Color, penWidth: number = 1, isFill: boolean = false): void {
         this.reference.DrawEclipse(position, size, color.value, penWidth, isFill);
     }
-    DrawImage(position: Point, size: Size, texture: ITexture, opacity:number): void {
-        this.reference.DrawImage(position, size, texture,opacity);
+    DrawImage(position: Point, size: Size, texture: ITexture, opacity: number): void {
+        this.reference.DrawImage(position, size, texture, opacity);
     }
     Fill(color: Color, region: Rectangle): void {
         this.reference.Fill(color.value, region);
@@ -209,6 +214,9 @@ export class SpritBatch  {
     }
     ResetMatrix(): void {
         this.reference.ResetMatrix();
+    }
+    MeasureText(text: string, font: Font): Rectangle {
+        return this.reference.MeasureText(text, font);
     }
 
 }

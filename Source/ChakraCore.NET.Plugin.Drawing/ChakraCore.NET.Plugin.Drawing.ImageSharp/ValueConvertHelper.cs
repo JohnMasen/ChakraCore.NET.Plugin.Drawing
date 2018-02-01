@@ -56,5 +56,10 @@ namespace ChakraCore.NET.Plugin.Drawing.ImageSharp
         {
             return new EllipsePolygon(ToPointF(position), ToSizeF(size)).Transform(matrix);
         }
+
+        public static SD.RectangleF FromRectangleF(IS.RectangleF value)
+        {
+            return new SD.RectangleF(value.X, value.Y, value.Width, value.Height);
+        }
     }
 }

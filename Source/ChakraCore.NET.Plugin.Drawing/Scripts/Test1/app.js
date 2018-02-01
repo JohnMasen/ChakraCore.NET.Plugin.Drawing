@@ -1,9 +1,13 @@
 import * as sdk from 'sdk@Plugin.Drawing';
 export class App {
+    constructor() {
+        this.size = { Width: 640, Height: 480 };
+    }
     Draw() {
         let sb = this.spritBatch;
         sb.Begin(sdk.BlendModeEnum.Normal);
         this.test1();
+        this.test3();
         sb.PushMatrix();
         sb.Translate({ X: 100, Y: 0 });
         for (var i = 0; i < 10; i++) {
@@ -11,10 +15,10 @@ export class App {
             sb.Rotate(5);
             sb.Scale({ X: 1.02, Y: 1.02 });
             this.test1();
-            // this.test2();
+            this.test2();
         }
         sb.PopMatrix();
-        // this.test2();
+        this.test2();
         sb.End();
     }
     test2() {
@@ -30,11 +34,22 @@ export class App {
         sb.DrawRectangle({ X: 0, Y: 0, Width: 100, Height: 100 }, this.getRandomColor());
         sb.DrawTriangle({ X: 50, Y: 0 }, { X: 100, Y: 100 }, { X: 0, Y: 100 }, this.getRandomColor());
         sb.DrawEclipse({ X: 50, Y: 50 }, { Width: 100, Height: 100 }, this.getRandomColor());
-        this.f.Size = 30;
-        sb.DrawText({ X: 0, Y: 0 }, "hello111", this.f, this.getRandomColor());
+        this.f.Size = 10;
+        sb.DrawText({ X: 0, Y: 0 }, "hello ", this.f, this.getRandomColor());
+    }
+    test3() {
+        let sb = this.spritBatch;
+        this.f.Size = 50;
+        let text = "hello";
+        let r = sdk.MeasureTextBound(text, this.f);
+        let pos = {
+            X: (this.size.Width - r.Width) / 2,
+            Y: (this.size.Height - r.Height) / 2
+        };
+        sb.DrawText(pos, text, this.f, this.getRandomColor());
     }
     Init() {
-        this.surface = sdk.GetDrawingSurface({ Width: 640, Height: 480 }, "0.1");
+        this.surface = sdk.GetDrawingSurface(this.size, "0.1");
         this.spritBatch = this.surface.CreateSpritBatch();
         this.spritBatch.Begin(sdk.BlendModeEnum.Normal);
         this.spritBatch.Fill(new sdk.Color("#ff000000"), { X: 0, Y: 0, Width: 640, Height: 480 });

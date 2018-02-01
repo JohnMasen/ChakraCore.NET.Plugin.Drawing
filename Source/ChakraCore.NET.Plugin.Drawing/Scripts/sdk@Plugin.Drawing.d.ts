@@ -64,6 +64,7 @@ export declare function GetDrawingSurface(size: Size, expetectProfileName: strin
 export declare function LoadTexture(name: string): ITexture;
 export declare function IsProfileSupported(profileName: string): boolean;
 export declare function LoadFont(filename: string): Font;
+export declare function MeasureTextBound(text: string, font: Font): Rectangle;
 export declare class Color {
     readonly value: string;
     constructor(hex: string);
@@ -86,6 +87,7 @@ export declare class SpritBatch {
     PushMatrix(): number;
     PopMatrix(): number;
     ResetMatrix(): void;
+    MeasureText(text: string, font: Font): Rectangle;
 }
 export declare class DrawingSurface {
     private reference;

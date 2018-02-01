@@ -184,6 +184,5 @@ namespace ChakraCore.NET.Plugin.Drawing.ImageSharp
             matrixStack.Clear();
         }
 
-        
     }
 }

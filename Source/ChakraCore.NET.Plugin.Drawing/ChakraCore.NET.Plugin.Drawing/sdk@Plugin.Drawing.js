@@ -99,6 +99,9 @@ export function IsProfileSupported(profileName) {
 export function LoadFont(filename) {
     return native.LoadFont(filename);
 }
+export function MeasureTextBound(text, font) {
+    return native.MeasureTextBound(text, font);
+}
 export class Color {
     constructor(hex) {
         this.value = hex;
@@ -152,6 +155,9 @@ export class SpritBatch {
     }
     ResetMatrix() {
         this.reference.ResetMatrix();
+    }
+    MeasureText(text, font) {
+        return this.reference.MeasureText(text, font);
     }
 }
 export class DrawingSurface {

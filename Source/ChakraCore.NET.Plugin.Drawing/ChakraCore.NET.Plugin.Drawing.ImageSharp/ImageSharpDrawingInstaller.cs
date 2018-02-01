@@ -5,6 +5,7 @@ using System.Drawing;
 using System.IO;
 using System.Text;
 using SixLabors.Fonts;
+using static ChakraCore.NET.Plugin.Drawing.ImageSharp.ValueConvertHelper;
 
 namespace ChakraCore.NET.Plugin.Drawing.ImageSharp
 {
@@ -23,5 +24,10 @@ namespace ChakraCore.NET.Plugin.Drawing.ImageSharp
             return profileName == "0.1";
         }
 
+        protected override RectangleF MeasureTextBound(string text, Font font)
+        {
+            RendererOptions options = new RendererOptions(Fonts.CreateFont(font.Name, font.Size));
+            return FromRectangleF(TextMeasurer.MeasureBounds(text, options));
+        }
     }
 }

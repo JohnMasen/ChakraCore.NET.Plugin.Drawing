@@ -19,8 +19,7 @@ namespace ChakraCore.NET.Plugin.Drawing
 
         protected abstract TDrawingSurface GetDrawingSurface(SizeF size,string expetectProfileName);
         protected abstract bool IsProfileSupported(string profileName);
-
-        protected virtual Font LoadFont(string resourceName)
+        protected abstract RectangleF MeasureTextBound(string text, Font font);protected virtual Font LoadFont(string resourceName)
         {
             return FontLoader.Process(resourceName);
         }
@@ -42,6 +41,7 @@ namespace ChakraCore.NET.Plugin.Drawing
             target.Binding.SetFunction<string, TTexture>(nameof(LoadTexture), LoadTexture);
             target.Binding.SetFunction<string, bool>(nameof(IsProfileSupported), IsProfileSupported);
             target.Binding.SetFunction<string, Font>(nameof(LoadFont), LoadFont);
+            target.Binding.SetFunction<string, Font, RectangleF>(nameof(MeasureTextBound), MeasureTextBound);
         }
 
         private void registerBasicTypes(IJSValueConverterService converter)
