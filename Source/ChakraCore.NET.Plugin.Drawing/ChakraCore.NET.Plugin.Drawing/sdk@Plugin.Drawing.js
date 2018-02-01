@@ -96,6 +96,9 @@ export function LoadTexture(name) {
 export function IsProfileSupported(profileName) {
     return native.IsProfileSupported(profileName);
 }
+export function LoadFont(filename) {
+    return native.LoadFont(filename);
+}
 export class Color {
     constructor(hex) {
         this.value = hex;
@@ -111,8 +114,8 @@ export class SpritBatch {
     End() {
         this.reference.End();
     }
-    DrawText(position, text, color, penWidth = 1) {
-        this.reference.DrawText(position, text, color.value, penWidth);
+    DrawText(position, text, font, color, penWidth = 1) {
+        this.reference.DrawText(position, text, font, color.value, penWidth);
     }
     DrawLine(points, color, penWidth = 1) {
         this.reference.DrawLines(points, color.value, penWidth);

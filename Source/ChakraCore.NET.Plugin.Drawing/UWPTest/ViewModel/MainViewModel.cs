@@ -76,6 +76,7 @@ namespace UWPTest.ViewModel
            imageSharpEngine = new ImageSharpDrawingInstaller();
            //imageSharpEngine.TextureLoader.Add(loadTexture);
            imageSharpEngine.SetTextureRoot(SelectedItem);
+           imageSharpEngine.SetFontRoot(SelectedItem);
 
            JavaScriptHostingConfig config = new JavaScriptHostingConfig();
            config.ModuleFileLoaders.Add(loadModule);

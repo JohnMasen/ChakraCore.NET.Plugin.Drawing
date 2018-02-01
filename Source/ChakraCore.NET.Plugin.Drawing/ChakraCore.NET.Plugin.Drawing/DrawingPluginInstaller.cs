@@ -124,7 +124,7 @@ namespace ChakraCore.NET.Plugin.Drawing
             converter.RegisterProxyConverter<TSpritBatch>(
                 (binding, obj, node) =>
                 {
-                    binding.SetMethod<PointF,string,string,int>(nameof(obj.DrawText), obj.DrawText);
+                    binding.SetMethod<PointF,string,Font,string,int>(nameof(obj.DrawText), obj.DrawText);
                     binding.SetMethod<IEnumerable<PointF>, string, int>(nameof(obj.DrawLines), obj.DrawLines);
                     binding.SetMethod<PointF, SizeF, string, int, bool>(nameof(obj.DrawEclipse), obj.DrawEclipse);
                     binding.SetMethod<PointF, SizeF, TTexture,float>(nameof(obj.DrawImage), obj.DrawImage);

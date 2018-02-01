@@ -11,7 +11,7 @@ export interface Rectangle extends Point, Size {
 export interface ISpritBatch {
     Begin(blend: number): void;
     End(): void;
-    DrawText(position: Point, text: string, color: string, penWidth: number): void;
+    DrawText(position: Point, text: string, font: Font, color: string, penWidth: number): void;
     DrawLines(points: Array<Point>, color: string, penWidth: number): void;
     DrawEclipse(position: Point, region: Size, color: string, penWidth: number, isFill: boolean): void;
     DrawImage(position: Point, size: Size, texture: ITexture, opacity: number): void;
@@ -63,6 +63,7 @@ export declare enum BlendModeEnum {
 export declare function GetDrawingSurface(size: Size, expetectProfileName: string): DrawingSurface;
 export declare function LoadTexture(name: string): ITexture;
 export declare function IsProfileSupported(profileName: string): boolean;
+export declare function LoadFont(filename: string): Font;
 export declare class Color {
     readonly value: string;
     constructor(hex: string);
@@ -72,7 +73,7 @@ export declare class SpritBatch {
     constructor(source: ISpritBatch);
     Begin(blend: BlendModeEnum): void;
     End(): void;
-    DrawText(position: Point, text: string, color: Color, penWidth?: number): void;
+    DrawText(position: Point, text: string, font: Font, color: Color, penWidth?: number): void;
     DrawLine(points: Array<Point>, color: Color, penWidth?: number): void;
     DrawRectangle(rect: Rectangle, color: Color, penWidth?: number, isFill?: boolean): void;
     DrawTriangle(a: Point, b: Point, c: Point, color: Color, penWidth?: number, isFill?: boolean): void;

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Numerics;
+using SixLabors.Fonts;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.Drawing.Pens;
 using SixLabors.ImageSharp.PixelFormats;
@@ -16,10 +17,12 @@ namespace ChakraCore.NET.Plugin.Drawing.ImageSharp
         Stack<Matrix3x2> matrixStack = new Stack<Matrix3x2>();
         Queue<Action<IImageProcessingContext<Rgba32>>> commandQueue = new Queue<Action<IImageProcessingContext<Rgba32>>>();
         GraphicsOptions currentOption;
+        FontCollection fontCollection;
         private bool isBegin = false;
-        public ImageSharpSpritBatch(Image<Rgba32> image)
+        public ImageSharpSpritBatch(Image<Rgba32> image,FontCollection fontCollection)
         {
             this.image = image;
+            this.fontCollection = fontCollection;
         }
 
         public void Begin(BlendModeEnum blend)
@@ -43,9 +46,13 @@ namespace ChakraCore.NET.Plugin.Drawing.ImageSharp
 
         }
 
-        public void DrawText(PointF position, string text, string color, int penWidth)
+        public void DrawText(PointF position, string text,Font font, string color, int penWidth)
         {
-            throw new NotImplementedException();
+            var p = ToPointF(position,world);
+            commandQueue.Enqueue(ctx =>
+            {
+                ctx.DrawText(text, fontCollection.CreateFont(font.Name, font.Size), Rgba32.FromHex(color), p, currentOption);
+            });
         }
 
         public void DrawLines(IEnumerable<PointF> points, string color, int penWidth)

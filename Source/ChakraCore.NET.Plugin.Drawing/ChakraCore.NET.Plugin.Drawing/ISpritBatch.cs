@@ -9,7 +9,7 @@ namespace ChakraCore.NET.Plugin.Drawing
     {
         void Begin(BlendModeEnum blend);
         void End();
-        void DrawText(PointF position, string text, string color,int penWidth);
+        void DrawText(PointF position, string text,Font font, string color,int penWidth);
         void DrawLines(IEnumerable<PointF> points, string color,int penWidth);
         void DrawEclipse(PointF position,SizeF region, string color, int penWidth, bool isFill);
         void DrawImage(PointF position,SizeF size,TTexture texture,float opacity);

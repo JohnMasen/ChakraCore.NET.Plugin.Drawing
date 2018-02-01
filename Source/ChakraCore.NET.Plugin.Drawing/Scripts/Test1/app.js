@@ -11,10 +11,10 @@ export class App {
             sb.Rotate(5);
             sb.Scale({ X: 1.02, Y: 1.02 });
             this.test1();
-            this.test2();
+            // this.test2();
         }
         sb.PopMatrix();
-        this.test2();
+        // this.test2();
         sb.End();
     }
     test2() {
@@ -30,6 +30,8 @@ export class App {
         sb.DrawRectangle({ X: 0, Y: 0, Width: 100, Height: 100 }, this.getRandomColor());
         sb.DrawTriangle({ X: 50, Y: 0 }, { X: 100, Y: 100 }, { X: 0, Y: 100 }, this.getRandomColor());
         sb.DrawEclipse({ X: 50, Y: 50 }, { Width: 100, Height: 100 }, this.getRandomColor());
+        this.f.Size = 30;
+        sb.DrawText({ X: 0, Y: 0 }, "hello111", this.f, this.getRandomColor());
     }
     Init() {
         this.surface = sdk.GetDrawingSurface({ Width: 640, Height: 480 }, "0.1");
@@ -38,6 +40,7 @@ export class App {
         this.spritBatch.Fill(new sdk.Color("#ff000000"), { X: 0, Y: 0, Width: 640, Height: 480 });
         this.spritBatch.End();
         this.TArrow = sdk.LoadTexture("arrow.jpg");
+        this.f = sdk.LoadFont("DigitalDream.ttf");
     }
     getRandomColor() {
         var letters = '0123456789ABCDEF';

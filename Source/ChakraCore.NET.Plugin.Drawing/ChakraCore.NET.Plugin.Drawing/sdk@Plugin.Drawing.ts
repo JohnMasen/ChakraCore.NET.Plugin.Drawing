@@ -14,7 +14,7 @@ export interface Rectangle extends Point, Size {
 export interface ISpritBatch {
     Begin(blend: number): void;
     End(): void;
-    DrawText(position: Point, text: string, color: string, penWidth: number): void;
+    DrawText(position: Point, text: string, font:Font, color: string, penWidth: number): void;
     DrawLines(points: Array<Point>, color: string, penWidth: number): void;
     DrawEclipse(position: Point, region: Size, color: string, penWidth: number, isFill: boolean): void;
     DrawImage(position: Point, size: Size, texture: ITexture, opacity: number): void;
@@ -149,6 +149,9 @@ export function LoadTexture(name: string): ITexture {
 export function IsProfileSupported(profileName: string): boolean {
     return native.IsProfileSupported(profileName);
 }
+export function LoadFont(filename: string): Font {
+    return native.LoadFont(filename);
+}
 
 export class Color {
     public readonly value: string;
@@ -168,8 +171,8 @@ export class SpritBatch  {
     End(): void {
         this.reference.End();
     }
-    DrawText(position: Point, text: string, color: Color,penWidth:number=1): void {
-        this.reference.DrawText(position, text, color.value, penWidth);
+    DrawText(position: Point, text: string,font:Font, color: Color,penWidth:number=1): void {
+        this.reference.DrawText(position, text,font, color.value, penWidth);
     }
     DrawLine(points:Array<Point> , color: Color, penWidth: number=1): void {
         this.reference.DrawLines(points, color.value, penWidth);

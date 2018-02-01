@@ -14,7 +14,7 @@ namespace ChakraCore.NET.Plugin.Drawing.ImageSharp
         public ImageSharpDrawingSurface LastDrawingSurface { get; private set; }
         protected override ImageSharpDrawingSurface GetDrawingSurface(SizeF size, string expetectProfileName)
         {
-            LastDrawingSurface= new ImageSharpDrawingSurface(size);
+            LastDrawingSurface= new ImageSharpDrawingSurface(size,Fonts);
             return LastDrawingSurface;
         }
 

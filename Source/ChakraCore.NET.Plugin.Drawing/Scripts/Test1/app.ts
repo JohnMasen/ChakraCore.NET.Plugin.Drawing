@@ -4,6 +4,7 @@ export
     TArrow: sdk.ITexture;
     surface: sdk.DrawingSurface;
     spritBatch: sdk.SpritBatch;
+    f:sdk.Font;
     public Draw() {
         let sb = this.spritBatch;
         sb.Begin(sdk.BlendModeEnum.Normal);
@@ -17,10 +18,10 @@ export
             sb.Rotate(5);
             sb.Scale({ X: 1.02, Y: 1.02 });
             this.test1();
-            this.test2();
+            // this.test2();
         }
         sb.PopMatrix();
-        this.test2();
+        // this.test2();
         sb.End();
     }
     private test2() {
@@ -37,7 +38,8 @@ export
         sb.DrawRectangle({ X: 0, Y: 0 , Width: 100, Height: 100 }, this.getRandomColor());
         sb.DrawTriangle({X:50,Y:0},{X:100,Y:100},{X:0,Y:100},this.getRandomColor());
         sb.DrawEclipse({ X: 50, Y: 50 }, { Width: 100, Height: 100 }, this.getRandomColor());
-        
+        this.f.Size=30;
+        sb.DrawText({X:0,Y:0},"hello111",this.f,this.getRandomColor());
     }
     public Init() {
         this.surface = sdk.GetDrawingSurface({ Width: 640, Height: 480 }, "0.1");
@@ -46,6 +48,7 @@ export
         this.spritBatch.Fill(new sdk.Color("#ff000000"), { X: 0, Y: 0, Width: 640, Height: 480 });
         this.spritBatch.End();
         this.TArrow = sdk.LoadTexture("arrow.jpg");
+        this.f=sdk.LoadFont("DigitalDream.ttf");
     }
     private getRandomColor() {
         var letters = '0123456789ABCDEF';
