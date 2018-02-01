@@ -14,7 +14,8 @@ namespace ChakraCore.NET.Plugin.Drawing
         void DrawEclipse(PointF position,SizeF region, string color, int penWidth, bool isFill);
         void DrawImage(PointF position,SizeF size,TTexture texture,float opacity);
         void Fill(string color, RectangleF region);
-        
+        void DrawRectangle(RectangleF rect, string color, int penWidth, bool isFill);
+        void DrawTriangle(PointF a, PointF b, PointF c, string color, int penWidth, bool isFill);
 
         void Translate(PointF value);
         void Scale(PointF value);

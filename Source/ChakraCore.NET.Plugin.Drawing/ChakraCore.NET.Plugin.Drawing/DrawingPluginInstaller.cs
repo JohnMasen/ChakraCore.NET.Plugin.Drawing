@@ -129,6 +129,8 @@ namespace ChakraCore.NET.Plugin.Drawing
                     binding.SetMethod<PointF, SizeF, string, int, bool>(nameof(obj.DrawEclipse), obj.DrawEclipse);
                     binding.SetMethod<PointF, SizeF, TTexture,float>(nameof(obj.DrawImage), obj.DrawImage);
                     binding.SetMethod<string, RectangleF>(nameof(obj.Fill), obj.Fill);
+                    binding.SetMethod<RectangleF, string, int, bool>(nameof(obj.DrawRectangle), obj.DrawRectangle);
+                    binding.SetMethod<PointF, PointF, PointF, string, int, bool>(nameof(obj.DrawTriangle), obj.DrawTriangle);
                     binding.SetMethod<PointF>(nameof(obj.Translate), obj.Translate);
                     binding.SetMethod<PointF>(nameof(obj.Scale), obj.Scale);
                     binding.SetMethod<float>(nameof(obj.Rotate), obj.Rotate);

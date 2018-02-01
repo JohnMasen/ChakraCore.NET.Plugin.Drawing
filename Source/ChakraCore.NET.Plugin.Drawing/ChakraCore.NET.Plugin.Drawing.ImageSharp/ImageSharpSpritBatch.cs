@@ -53,6 +53,48 @@ namespace ChakraCore.NET.Plugin.Drawing.ImageSharp
             var p = points.ToPointFArray(world);
             commandQueue.Enqueue(ctx => ctx.DrawLines(Rgba32.FromHex(color), penWidth, p));
         }
+        public void DrawRectangle(RectangleF rect, string color, int penWidth, bool isFill)
+        {
+            var r = ToRectangleF(rect, world);
+            if (isFill)
+            {
+                commandQueue.Enqueue(cts =>
+                {
+                    cts.Fill(Rgba32.FromHex(color), r, currentOption);
+                   
+                });
+            }
+            else
+            {
+                commandQueue.Enqueue(cts =>
+                {
+                    cts.Draw(Rgba32.FromHex(color), penWidth, r, currentOption);
+                });
+            }
+            
+        }
+
+        public void DrawTriangle(PointF a, PointF b, PointF c, string color, int penWidth, bool isFill)
+        {
+            var a1 = ToPointF(a, world);
+            var b1 = ToPointF(b, world);
+            var c1 = ToPointF(c, world);
+            var points = new SixLabors.Primitives.PointF[] { a1, b1, c1, a1 };
+            if (isFill)
+            {
+                commandQueue.Enqueue(ctx =>
+                {
+                    ctx.FillPolygon(Rgba32.FromHex(color), points, currentOption);
+                });
+            }
+            else
+            {
+                commandQueue.Enqueue(ctx =>
+                {
+                    ctx.DrawPolygon(Rgba32.FromHex(color),penWidth, points, currentOption);
+                });
+            }
+        }
 
 
         public void DrawEclipse(PointF position, SizeF size, string color, int penWidth, bool isFill)
@@ -135,8 +177,6 @@ namespace ChakraCore.NET.Plugin.Drawing.ImageSharp
             matrixStack.Clear();
         }
 
-
-
-
+        
     }
 }

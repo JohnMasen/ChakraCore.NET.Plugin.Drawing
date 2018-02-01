@@ -18,6 +18,8 @@ export interface ISpritBatch {
     DrawLines(points: Array<Point>, color: string, penWidth: number): void;
     DrawEclipse(position: Point, region: Size, color: string, penWidth: number, isFill: boolean): void;
     DrawImage(position: Point, size: Size, texture: ITexture, opacity: number): void;
+    DrawRectangle(rect: Rectangle, color: string, penWidth: number, isFill: boolean): void;
+    DrawTriangle(a: Point, b: Point, c: Point, color: string, penWidth: number, isFill: boolean): void; 
     Fill(color: string, region: Rectangle): void;
     Translate(value: Point): void;
     Scale(value: Point): void;
@@ -172,21 +174,11 @@ export class SpritBatch  {
     DrawLine(points:Array<Point> , color: Color, penWidth: number=1): void {
         this.reference.DrawLines(points, color.value, penWidth);
     }
-    DrawRectangle(position: Point, size: Size, color: Color, penWidth: number = 1, isFill: boolean=false): void {
-        
-        if (isFill) {
-            this.reference.Fill(color.value, { X:position.X, Y:position.Y, Width:size.Width, Height:size.Height });
-        }
-        else {
-            let points: Array<Point> = new Array<Point>();
-            points.push(position);//top left
-            points.push({ X: position.X + size.Width, Y: position.Y });//top right
-            points.push({ X: position.X + size.Width, Y: position.Y + size.Height });//bottom right
-            points.push({ X: position.X, Y: position.Y + size.Height });//botom left
-            points.push(position);//top left
-            this.reference.DrawLines(points, color.value, penWidth);
-        }
-        
+    DrawRectangle(rect:Rectangle, color: Color, penWidth: number = 1, isFill: boolean=false): void {
+        this.reference.DrawRectangle(rect, color.value, penWidth, isFill);
+    }
+    DrawTriangle(a: Point, b: Point, c: Point, color: Color, penWidth: number = 1, isFill: boolean = false): void {
+        this.reference.DrawTriangle(a, b, c, color.value, penWidth, isFill);
     }
     DrawEclipse(position: Point, size: Size, color: Color, penWidth:number=1, isFill: boolean=false): void {
         this.reference.DrawEclipse(position, size, color.value, penWidth, isFill);

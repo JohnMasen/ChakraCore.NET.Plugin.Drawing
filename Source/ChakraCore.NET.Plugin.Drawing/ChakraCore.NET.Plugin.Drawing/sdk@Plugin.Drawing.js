@@ -117,19 +117,11 @@ export class SpritBatch {
     DrawLine(points, color, penWidth = 1) {
         this.reference.DrawLines(points, color.value, penWidth);
     }
-    DrawRectangle(position, size, color, penWidth = 1, isFill = false) {
-        if (isFill) {
-            this.reference.Fill(color.value, { X: position.X, Y: position.Y, Width: size.Width, Height: size.Height });
-        }
-        else {
-            let points = new Array();
-            points.push(position); //top left
-            points.push({ X: position.X + size.Width, Y: position.Y }); //top right
-            points.push({ X: position.X + size.Width, Y: position.Y + size.Height }); //bottom right
-            points.push({ X: position.X, Y: position.Y + size.Height }); //botom left
-            points.push(position); //top left
-            this.reference.DrawLines(points, color.value, penWidth);
-        }
+    DrawRectangle(rect, color, penWidth = 1, isFill = false) {
+        this.reference.DrawRectangle(rect, color.value, penWidth, isFill);
+    }
+    DrawTriangle(a, b, c, color, penWidth = 1, isFill = false) {
+        this.reference.DrawTriangle(a, b, c, color.value, penWidth, isFill);
     }
     DrawEclipse(position, size, color, penWidth = 1, isFill = false) {
         this.reference.DrawEclipse(position, size, color.value, penWidth, isFill);

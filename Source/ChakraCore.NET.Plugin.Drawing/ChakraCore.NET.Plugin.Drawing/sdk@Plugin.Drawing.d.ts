@@ -15,6 +15,8 @@ export interface ISpritBatch {
     DrawLines(points: Array<Point>, color: string, penWidth: number): void;
     DrawEclipse(position: Point, region: Size, color: string, penWidth: number, isFill: boolean): void;
     DrawImage(position: Point, size: Size, texture: ITexture, opacity: number): void;
+    DrawRectangle(rect: Rectangle, color: string, penWidth: number, isFill: boolean): void;
+    DrawTriangle(a: Point, b: Point, c: Point, color: string, penWidth: number, isFill: boolean): void;
     Fill(color: string, region: Rectangle): void;
     Translate(value: Point): void;
     Scale(value: Point): void;
@@ -72,7 +74,8 @@ export declare class SpritBatch {
     End(): void;
     DrawText(position: Point, text: string, color: Color, penWidth?: number): void;
     DrawLine(points: Array<Point>, color: Color, penWidth?: number): void;
-    DrawRectangle(position: Point, size: Size, color: Color, penWidth?: number, isFill?: boolean): void;
+    DrawRectangle(rect: Rectangle, color: Color, penWidth?: number, isFill?: boolean): void;
+    DrawTriangle(a: Point, b: Point, c: Point, color: Color, penWidth?: number, isFill?: boolean): void;
     DrawEclipse(position: Point, size: Size, color: Color, penWidth?: number, isFill?: boolean): void;
     DrawImage(position: Point, size: Size, texture: ITexture, opacity: number): void;
     Fill(color: Color, region: Rectangle): void;
