@@ -102,6 +102,16 @@ export function LoadFont(filename) {
 export function MeasureTextBound(text, font) {
     return native.MeasureTextBound(text, font);
 }
+export function LoadEffect(name) {
+    let result = native.LoadEffect(name);
+    if (result.ConfigJson != "") {
+        result.Config = JSON.parse(result.ConfigJson);
+    }
+    else {
+        result.Config = {};
+    }
+    return result;
+}
 export class Color {
     constructor(hex) {
         this.value = hex;
@@ -111,8 +121,14 @@ export class SpritBatch {
     constructor(source) {
         this.reference = source;
     }
-    Begin(blend) {
-        this.reference.Begin(blend);
+    Begin(blend, effect) {
+        if (effect == undefined) {
+            this.reference.Begin(blend, { Name: "", ConfigJson: "" });
+        }
+        else {
+            effect.ConfigJson = JSON.stringify(effect.Config);
+            this.reference.Begin(blend, effect);
+        }
     }
     End() {
         this.reference.End();
@@ -155,9 +171,6 @@ export class SpritBatch {
     }
     ResetMatrix() {
         this.reference.ResetMatrix();
-    }
-    MeasureText(text, font) {
-        return this.reference.MeasureText(text, font);
     }
 }
 export class DrawingSurface {

@@ -12,7 +12,7 @@ export interface Rectangle extends Point, Size {
 
 }
 export interface ISpritBatch {
-    Begin(blend: number): void;
+    Begin(blend: number,effect:IEffect): void;
     End(): void;
     DrawText(position: Point, text: string, font: Font, color: string, penWidth: number): void;
     DrawLines(points: Array<Point>, color: string, penWidth: number): void;
@@ -49,6 +49,7 @@ interface INativeAPI {
     IsProfileSupported(profileName: string): boolean;
     LoadFont(resourceName: string): Font;
     MeasureTextBound(text: string, font: Font): Rectangle; 
+    LoadEffect(name: string): IEffect;
 }
 declare function RequireNative(name: string): INativeAPI;
 let native = RequireNative("Plugin.Drawing");
@@ -157,6 +158,17 @@ export function LoadFont(filename: string): Font {
 export function MeasureTextBound(text: string, font: Font): Rectangle {
     return native.MeasureTextBound(text, font);
 }
+export function LoadEffect(name: string): IEffect {
+    let result = native.LoadEffect(name);
+    if (result.ConfigJson != "") {
+        result.Config = JSON.parse(result.ConfigJson);
+    }
+    else {
+        result.Config = {};
+    }
+    
+    return result;
+}
 
 export class Color {
     public readonly value: string;
@@ -164,14 +176,25 @@ export class Color {
         this.value = hex;
     }
 }
-
+export interface IEffect {
+    Name: string,
+    ConfigJson: string,
+    Config?:object
+}
 export class SpritBatch {
     private reference: ISpritBatch;
     constructor(source: ISpritBatch) {
         this.reference = source;
     }
-    Begin(blend: BlendModeEnum): void {
-        this.reference.Begin(blend);
+    Begin(blend: BlendModeEnum, effect?: IEffect): void {
+        if (effect == undefined) {
+            this.reference.Begin(blend, { Name: "", ConfigJson: "" }  );
+        }
+        else {
+            effect.ConfigJson = JSON.stringify(effect.Config);
+            this.reference.Begin(blend, effect);
+        }
+        
     }
     End(): void {
         this.reference.End();
@@ -215,9 +238,7 @@ export class SpritBatch {
     ResetMatrix(): void {
         this.reference.ResetMatrix();
     }
-    MeasureText(text: string, font: Font): Rectangle {
-        return this.reference.MeasureText(text, font);
-    }
+    
 
 }
 

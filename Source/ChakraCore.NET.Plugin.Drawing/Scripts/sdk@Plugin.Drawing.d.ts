@@ -9,7 +9,7 @@ export interface Size {
 export interface Rectangle extends Point, Size {
 }
 export interface ISpritBatch {
-    Begin(blend: number): void;
+    Begin(blend: number, effect: IEffect): void;
     End(): void;
     DrawText(position: Point, text: string, font: Font, color: string, penWidth: number): void;
     DrawLines(points: Array<Point>, color: string, penWidth: number): void;
@@ -65,14 +65,20 @@ export declare function LoadTexture(name: string): ITexture;
 export declare function IsProfileSupported(profileName: string): boolean;
 export declare function LoadFont(filename: string): Font;
 export declare function MeasureTextBound(text: string, font: Font): Rectangle;
+export declare function LoadEffect(name: string): IEffect;
 export declare class Color {
     readonly value: string;
     constructor(hex: string);
 }
+export interface IEffect {
+    Name: string;
+    ConfigJson: string;
+    Config?: object;
+}
 export declare class SpritBatch {
     private reference;
     constructor(source: ISpritBatch);
-    Begin(blend: BlendModeEnum): void;
+    Begin(blend: BlendModeEnum, effect?: IEffect): void;
     End(): void;
     DrawText(position: Point, text: string, font: Font, color: Color, penWidth?: number): void;
     DrawLine(points: Array<Point>, color: Color, penWidth?: number): void;
@@ -87,7 +93,6 @@ export declare class SpritBatch {
     PushMatrix(): number;
     PopMatrix(): number;
     ResetMatrix(): void;
-    MeasureText(text: string, font: Font): Rectangle;
 }
 export declare class DrawingSurface {
     private reference;

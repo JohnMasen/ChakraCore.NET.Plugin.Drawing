@@ -7,7 +7,7 @@ namespace ChakraCore.NET.Plugin.Drawing
 {
     public interface ISpritBatch< TTexture> where TTexture:ITexture 
     {
-        void Begin(BlendModeEnum blend);
+        void Begin(BlendModeEnum blend,Effect effect);
         void End();
         void DrawText(PointF position, string text,Font font, string color,int penWidth);
         void DrawLines(IEnumerable<PointF> points, string color,int penWidth);

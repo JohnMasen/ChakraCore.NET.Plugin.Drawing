@@ -18,20 +18,24 @@ namespace ChakraCore.NET.Plugin.Drawing.ImageSharp
         Queue<Action<IImageProcessingContext<Rgba32>>> commandQueue = new Queue<Action<IImageProcessingContext<Rgba32>>>();
         GraphicsOptions currentOption;
         FontCollection fontCollection;
+        ImageSharpEffectFactory effectFactory;
+        Effect currentEffect;
         private bool isBegin = false;
-        public ImageSharpSpritBatch(Image<Rgba32> image,FontCollection fontCollection)
+        public ImageSharpSpritBatch(Image<Rgba32> image,FontCollection fontCollection,ImageSharpEffectFactory effectFactory)
         {
             this.image = image;
             this.fontCollection = fontCollection;
+            this.effectFactory = effectFactory;
         }
 
-        public void Begin(BlendModeEnum blend)
+        public void Begin(BlendModeEnum blend,Effect effect)
         {
             if (isBegin)
             {
                 throw new InvalidOperationException("Can not Call Begin() twice, please call End() before another call of Begin()");
             }
             currentOption = new GraphicsOptions() { BlenderMode = (PixelBlenderMode)(int)blend };
+            currentEffect = effect;
         }
 
         public void End()
@@ -42,6 +46,7 @@ namespace ChakraCore.NET.Plugin.Drawing.ImageSharp
                 {
                     commandQueue.Dequeue().Invoke(ctx);
                 }
+                effectFactory.GetImageSharpEffect(currentEffect)?.Process(ctx);
             });
 
         }

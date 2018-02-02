@@ -11,11 +11,10 @@ namespace ChakraCore.NET.Plugin.Drawing.ImageSharp
     {
         public Image<Rgba32> Image { get; private set; }
         ImageSharpSpritBatch batch;
-        FontCollection fontCollection;
-        public ImageSharpDrawingSurface(SizeF size,FontCollection fonts)
+        public ImageSharpDrawingSurface(SizeF size,FontCollection fonts,ImageSharpEffectFactory effectFactory)
         {
             Image = new Image<Rgba32>((int)size.Width, (int)size.Height);
-            batch = new ImageSharpSpritBatch(Image, fonts);
+            batch = new ImageSharpSpritBatch(Image, fonts, effectFactory);
         }
         public ImageSharpSpritBatch CreateSpritBatch()
         {

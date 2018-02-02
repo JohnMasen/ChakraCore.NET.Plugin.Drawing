@@ -19,6 +19,7 @@ namespace ChakraCore.NET.Plugin.Drawing
 
         protected abstract TDrawingSurface GetDrawingSurface(SizeF size,string expetectProfileName);
         protected abstract bool IsProfileSupported(string profileName);
+        protected abstract Effect LoadEffect(string effectName);
         protected abstract RectangleF MeasureTextBound(string text, Font font);protected virtual Font LoadFont(string resourceName)
         {
             return FontLoader.Process(resourceName);
@@ -42,6 +43,7 @@ namespace ChakraCore.NET.Plugin.Drawing
             target.Binding.SetFunction<string, bool>(nameof(IsProfileSupported), IsProfileSupported);
             target.Binding.SetFunction<string, Font>(nameof(LoadFont), LoadFont);
             target.Binding.SetFunction<string, Font, RectangleF>(nameof(MeasureTextBound), MeasureTextBound);
+            target.Binding.SetFunction<string, Effect>(nameof(LoadEffect), LoadEffect);
         }
 
         private void registerBasicTypes(IJSValueConverterService converter)
@@ -107,6 +109,22 @@ namespace ChakraCore.NET.Plugin.Drawing
 
 
                 );
+            converter.RegisterStructConverter<Effect>(
+                (jsvalue,value)=>
+                {
+                    jsvalue.WriteProperty<string>(nameof(value.Name), value.Name);
+                    jsvalue.WriteProperty<string>(nameof(value.ConfigJson), value.ConfigJson);
+                },
+                (jsvalue)=>
+                {
+                    return new Effect()
+                    {
+                        Name = jsvalue.ReadProperty<string>(nameof(Effect.Name)),
+                        ConfigJson=jsvalue.ReadProperty<string>(nameof(Effect.ConfigJson))
+                    };
+                }
+
+                );
 
         }
 
@@ -137,7 +155,7 @@ namespace ChakraCore.NET.Plugin.Drawing
                     binding.SetFunction<int>(nameof(obj.PushMatrix), obj.PushMatrix);
                     binding.SetFunction<int>(nameof(obj.PopMatrix), obj.PopMatrix);
                     binding.SetMethod(nameof(obj.ResetMatrix), obj.ResetMatrix);
-                    binding.SetMethod<BlendModeEnum>(nameof(obj.Begin), obj.Begin);
+                    binding.SetMethod<BlendModeEnum,Effect>(nameof(obj.Begin), obj.Begin);
                     binding.SetMethod(nameof(obj.End), obj.End);
                 }
                 );

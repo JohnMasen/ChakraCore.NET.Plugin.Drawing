@@ -5,7 +5,9 @@ export class App {
     }
     Draw() {
         let sb = this.spritBatch;
-        sb.Begin(sdk.BlendModeEnum.Normal);
+        let blur = this.currentEffect;
+        blur.Config.sigma = 1;
+        sb.Begin(sdk.BlendModeEnum.Normal, this.currentEffect);
         this.test1();
         this.test3();
         sb.PushMatrix();
@@ -56,6 +58,7 @@ export class App {
         this.spritBatch.End();
         this.TArrow = sdk.LoadTexture("arrow.jpg");
         this.f = sdk.LoadFont("DigitalDream.ttf");
+        this.currentEffect = sdk.LoadEffect("Blur");
     }
     getRandomColor() {
         var letters = '0123456789ABCDEF';
