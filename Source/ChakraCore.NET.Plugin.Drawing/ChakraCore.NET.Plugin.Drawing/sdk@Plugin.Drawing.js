@@ -103,12 +103,10 @@ export function MeasureTextBound(text, font) {
     return native.MeasureTextBound(text, font);
 }
 export function LoadEffect(name) {
-    let result = native.LoadEffect(name);
-    if (result.ConfigJson != "") {
-        result.Config = JSON.parse(result.ConfigJson);
-    }
-    else {
-        result.Config = {};
+    let tmp = native.LoadEffect(name);
+    let result = { Name: tmp.Name, Config: {} };
+    if (tmp.ConfigJson != "") {
+        result.Config = JSON.parse(tmp.ConfigJson);
     }
     return result;
 }
@@ -126,8 +124,10 @@ export class SpritBatch {
             this.reference.Begin(blend, { Name: "", ConfigJson: "" });
         }
         else {
-            effect.ConfigJson = JSON.stringify(effect.Config);
-            this.reference.Begin(blend, effect);
+            this.reference.Begin(blend, {
+                Name: effect.Name,
+                ConfigJson: JSON.stringify(effect.Config)
+            });
         }
     }
     End() {

@@ -9,7 +9,7 @@ export interface Size {
 export interface Rectangle extends Point, Size {
 }
 export interface ISpritBatch {
-    Begin(blend: number, effect: IEffect): void;
+    Begin(blend: number, effect: INativeEffect): void;
     End(): void;
     DrawText(position: Point, text: string, font: Font, color: string, penWidth: number): void;
     DrawLines(points: Array<Point>, color: string, penWidth: number): void;
@@ -72,8 +72,11 @@ export declare class Color {
 }
 export interface IEffect {
     Name: string;
+    Config: object;
+}
+export interface INativeEffect {
+    Name: string;
     ConfigJson: string;
-    Config?: object;
 }
 export declare class SpritBatch {
     private reference;

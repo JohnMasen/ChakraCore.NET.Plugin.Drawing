@@ -60,8 +60,8 @@ namespace UWPTest.ViewModel
         }
         JSDrawApp currentApp;
         private ImageSharpDrawingInstaller imageSharpEngine;
-        
-        
+        private StorageFolder RootFolder;
+
 
         public StorageFolder SelectedItem { get; set; }
 
@@ -79,31 +79,84 @@ namespace UWPTest.ViewModel
            imageSharpEngine.SetFontRoot(SelectedItem);
 
            JavaScriptHostingConfig config = new JavaScriptHostingConfig();
-           config.ModuleFileLoaders.Add(loadModule);
+           config
+            .AddModuleFolder(SelectedItem)
+            .AddModuleFolder(RootFolder);
            config.AddPlugin(imageSharpEngine);
            currentApp = await JavaScriptHosting.Default.GetModuleClassAsync<JSDrawApp>("app", "App", config);
            await currentApp.InitAsync();
            Info = "Loaded";
        });
 
-
-        private string loadModule(string name)
+        private T createInstance<T>(string typeName) where T : class
         {
-            var t = loadModuleAsync(name);
-            t.Wait();
-            return t.Result;
-        }
-
-        private async Task<string> loadModuleAsync(string name)
-        {
-            using (var file=await SelectedItem.OpenStreamForReadAsync($"{name}.js"))
+            Type t;
+            t = Type.GetType(typeName, false);
+            if (t == null)
             {
-                using (var reader = new StreamReader(file))
+                var tmp = typeName.Split(',');
+                if (tmp.Length == 2)
                 {
-                    return reader.ReadToEnd();
+                    t = Type.GetType($"{tmp[1]}.{tmp[0]},{tmp[1]}", false);
+                    if (t == null)
+                    {
+                        return null;
+                    }
                 }
-            } 
+                else
+                {
+                    return null;
+                }
+            }
+            return Activator.CreateInstance(t) as T;
         }
+
+        //private string loadModule(string name)
+        //{
+        //    var t = loadModuleAsync(name);
+        //    t.Wait();
+        //    return t.Result;
+        //}
+
+        //private async Task<string> loadModuleAsync(string name)
+        //{
+        //    return 
+        //        await loadModuleFromRootAsync(SelectedItem, null, $"{name}.js") 
+        //        ?? await loadModuleFromRootAsync(SelectedItem, name, $"{name}.js")
+        //        ?? await loadModuleFromRootAsync(SelectedItem, name, "index.js")
+        //        ??await loadModuleFromRootAsync(RootFolder, null, $"{name}.js")
+        //        ?? await loadModuleFromRootAsync(RootFolder, name, $"{name}.js")
+        //        ?? await loadModuleFromRootAsync(RootFolder, name, "index.js");
+        //}
+
+        //private async Task<string> loadModuleFromRootAsync(StorageFolder folder,string folderName,string fileName)
+        //{
+        //    try
+        //    {
+        //        if (!string.IsNullOrEmpty(folderName))
+        //        {
+        //            folder = await folder.GetFolderAsync(folderName);
+        //        }
+        //        var file=await folder.GetFileAsync(fileName);
+        //        using (var stream=await file.OpenStreamForReadAsync())
+        //        {
+        //            using (var reader=new StreamReader(stream))
+        //            {
+        //                return reader.ReadToEnd();
+        //            }
+        //        }
+        //    }
+        //    catch(FileNotFoundException)
+        //    {
+        //        return null;
+        //    }
+        //    catch (Exception)
+        //    {
+
+        //        throw;
+        //    }
+
+        //}
 
         public RelayCommand Run => new RelayCommand(async () =>
            {
@@ -124,25 +177,25 @@ namespace UWPTest.ViewModel
             RaisePropertyChanged(nameof(ImageSharpOutput));
         }
 
-        public RelayCommand ChooseRoot =>new RelayCommand(async ()=>
-        {
-            FolderPicker picker = new FolderPicker();
-            picker.FileTypeFilter.Add("*");
-            var result=await picker.PickSingleFolderAsync();
-            if (result!=null)
-            {
-                Folders = await result.GetFoldersAsync();
+        public RelayCommand ChooseRoot => new RelayCommand(async () =>
+         {
+             FolderPicker picker = new FolderPicker();
+             picker.FileTypeFilter.Add("*");
+             RootFolder = await picker.PickSingleFolderAsync();
+             if (RootFolder != null)
+             {
+                 Folders = await RootFolder.GetFoldersAsync();
 
-                RaisePropertyChanged(nameof(Folders));
+                 RaisePropertyChanged(nameof(Folders));
 
-            }
-            
+             }
 
-        });
 
-        
+         });
+
+
         public ImageSource ImageSharpOutput { get; private set; }
 
-        
+
     }
 }

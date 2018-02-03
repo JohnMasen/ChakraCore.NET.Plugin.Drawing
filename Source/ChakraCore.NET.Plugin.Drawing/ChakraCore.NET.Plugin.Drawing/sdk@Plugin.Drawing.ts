@@ -1,4 +1,15 @@
-﻿export interface Point {
+﻿declare function RequireNative(name: string): INativeAPI;
+let native = RequireNative("Plugin.Drawing");
+interface INativeAPI {
+    GetDrawingSurface(size: Size, expetectProfileName: string): IDrawingSurface;
+    LoadTexture(resourceName: string): ITexture;
+    IsProfileSupported(profileName: string): boolean;
+    LoadFont(resourceName: string): Font;
+    MeasureTextBound(text: string, font: Font): Rectangle;
+    LoadEffect(name: string): INativeEffect;
+}
+
+export interface Point {
     X: number;
     Y: number;
 }
@@ -12,7 +23,7 @@ export interface Rectangle extends Point, Size {
 
 }
 export interface ISpritBatch {
-    Begin(blend: number,effect:IEffect): void;
+    Begin(blend: number,effect:INativeEffect): void;
     End(): void;
     DrawText(position: Point, text: string, font: Font, color: string, penWidth: number): void;
     DrawLines(points: Array<Point>, color: string, penWidth: number): void;
@@ -42,17 +53,6 @@ export interface Font {
     Name: string;
     Size: number;
 }
-
-interface INativeAPI {
-    GetDrawingSurface(size: Size, expetectProfileName: string): IDrawingSurface;
-    LoadTexture(resourceName: string): ITexture;
-    IsProfileSupported(profileName: string): boolean;
-    LoadFont(resourceName: string): Font;
-    MeasureTextBound(text: string, font: Font): Rectangle; 
-    LoadEffect(name: string): IEffect;
-}
-declare function RequireNative(name: string): INativeAPI;
-let native = RequireNative("Plugin.Drawing");
 
 export enum BlendModeEnum {
     //
@@ -159,14 +159,11 @@ export function MeasureTextBound(text: string, font: Font): Rectangle {
     return native.MeasureTextBound(text, font);
 }
 export function LoadEffect(name: string): IEffect {
-    let result = native.LoadEffect(name);
-    if (result.ConfigJson != "") {
-        result.Config = JSON.parse(result.ConfigJson);
+    let tmp = native.LoadEffect(name);
+    let result: IEffect = { Name: tmp.Name, Config: {} };
+    if (tmp.ConfigJson != "") {
+        result.Config = JSON.parse(tmp.ConfigJson);
     }
-    else {
-        result.Config = {};
-    }
-    
     return result;
 }
 
@@ -178,8 +175,11 @@ export class Color {
 }
 export interface IEffect {
     Name: string,
-    ConfigJson: string,
-    Config?:object
+    Config:object
+}
+export interface INativeEffect {
+    Name: string,
+    ConfigJson: string
 }
 export class SpritBatch {
     private reference: ISpritBatch;
@@ -191,8 +191,10 @@ export class SpritBatch {
             this.reference.Begin(blend, { Name: "", ConfigJson: "" }  );
         }
         else {
-            effect.ConfigJson = JSON.stringify(effect.Config);
-            this.reference.Begin(blend, effect);
+            this.reference.Begin(blend, {
+                Name: effect.Name,
+                ConfigJson: JSON.stringify(effect.Config)
+            });
         }
         
     }

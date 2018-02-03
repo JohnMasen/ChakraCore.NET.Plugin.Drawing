@@ -12,8 +12,8 @@
     <AssemblyVersion>0.1.0.0</AssemblyVersion>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="ChakraCore.NET" Version="1.2.7" />
-    <PackageReference Include="ChakraCore.NET.Hosting" Version="1.0.0" />
+    <PackageReference Include="ChakraCore.NET" Version="1.2.8" />
+    <PackageReference Include="ChakraCore.NET.Hosting" Version="1.0.1" />
     <PackageReference Include="System.Drawing.Primitives" Version="4.3.0" />
   </ItemGroup>
   <ItemGroup>

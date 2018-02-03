@@ -1,13 +1,13 @@
 import * as sdk from 'sdk@Plugin.Drawing';
+import * as ImageSharpEffects from 'sdk@ImageSharpEffectSDK,ChakraCore.NET.Plugin.Drawing.ImageSharp';
 export class App {
     constructor() {
         this.size = { Width: 640, Height: 480 };
     }
     Draw() {
         let sb = this.spritBatch;
-        let blur = this.currentEffect;
-        blur.Config.sigma = 1;
-        sb.Begin(sdk.BlendModeEnum.Normal, this.currentEffect);
+        this.blur.Config.sigma = 2;
+        sb.Begin(sdk.BlendModeEnum.Normal, this.blur);
         this.test1();
         this.test3();
         sb.PushMatrix();
@@ -58,7 +58,7 @@ export class App {
         this.spritBatch.End();
         this.TArrow = sdk.LoadTexture("arrow.jpg");
         this.f = sdk.LoadFont("DigitalDream.ttf");
-        this.currentEffect = sdk.LoadEffect("Blur");
+        this.blur = ImageSharpEffects.LoadImageSharpEffect(ImageSharpEffects.BlurEffect);
     }
     getRandomColor() {
         var letters = '0123456789ABCDEF';
