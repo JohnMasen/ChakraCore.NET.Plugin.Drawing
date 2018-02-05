@@ -7,16 +7,17 @@ export class App {
     Draw() {
         let sb = this.spritBatch;
         this.blur.Config.sigma = 2;
-        sb.Begin(sdk.BlendModeEnum.Normal, this.blur);
+        // sb.Begin(sdk.BlendModeEnum.Normal,this.blur);
+        sb.Begin(sdk.BlendModeEnum.Normal);
         this.test1();
         this.test3();
         sb.PushMatrix();
         sb.Translate({ X: 100, Y: 0 });
         for (var i = 0; i < 10; i++) {
             sb.Translate({ X: 10, Y: 10 });
-            sb.Rotate(5);
-            sb.Scale({ X: 1.02, Y: 1.02 });
-            this.test1();
+            //sb.Rotate(5);
+            //sb.Scale({ X: 1.02, Y: 1.02 });
+            // this.test1();
             this.test2();
         }
         sb.PopMatrix();

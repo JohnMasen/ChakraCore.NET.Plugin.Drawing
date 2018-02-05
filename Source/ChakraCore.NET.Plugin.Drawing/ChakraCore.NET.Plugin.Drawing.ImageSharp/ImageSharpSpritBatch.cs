@@ -139,8 +139,10 @@ namespace ChakraCore.NET.Plugin.Drawing.ImageSharp
 
         public void DrawImage(PointF position, SizeF size, ImageSharpTexture texture, float opacity)
         {
-            var s = ToSize(size, world);
-            var p = ToPoint(position, world);
+            
+            var rect = ToRectangleF(new RectangleF(position, size),world);
+            var s = new SixLabors.Primitives.Size((int)rect.Width, (int)rect.Height);
+            var p = new SixLabors.Primitives.Point((int)rect.X, (int)rect.Y);
             commandQueue.Enqueue(ctx =>
             {
                 ctx.DrawImage(texture.Image, opacity, s,p );

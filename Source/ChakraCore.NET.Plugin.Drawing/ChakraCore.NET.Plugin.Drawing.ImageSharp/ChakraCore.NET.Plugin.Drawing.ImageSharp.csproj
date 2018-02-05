@@ -6,11 +6,12 @@
     <UpgradeBackupLocation>
     </UpgradeBackupLocation>
     <OldToolsVersion>2.0</OldToolsVersion>
-    <Version>0.1.0</Version>
+    <Version>0.1.1</Version>
     <Description>ImageSharp implementation of ChakraCore.NET.Plugin.Drawing</Description>
-    <PackageReleaseNotes>initial release</PackageReleaseNotes>
-    <AssemblyVersion>0.1.0.0</AssemblyVersion>
+    <PackageReleaseNotes>fixed DrawImage size issue</PackageReleaseNotes>
+    <AssemblyVersion>0.1.1.0</AssemblyVersion>
     <DefineConstants Condition=" '$(TargetFramework)' == 'uap10.0.16299'">UAP10_0_16299</DefineConstants>
+    <FileVersion>0.1.1.0</FileVersion>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="MSBuild.Sdk.Extras" Version="1.2.1" />
