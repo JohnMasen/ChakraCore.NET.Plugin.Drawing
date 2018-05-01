@@ -2,12 +2,12 @@
 import * as ImageSharpEffects from 'sdk@ImageSharpEffectSDK,ChakraCore.NET.Plugin.Drawing.ImageSharp';
 export 
     class App {
-    TArrow: sdk.ITexture;
-    surface: sdk.DrawingSurface;
-    spritBatch: sdk.SpritBatch;
-    f:sdk.Font;
+    TArrow!: sdk.ITexture;
+    surface!: sdk.DrawingSurface;
+    spritBatch!: sdk.SpritBatch;
+    f!:sdk.Font;
     size:sdk.Size={Width:640,Height:480};
-    blur:ImageSharpEffects.BlurEffect;
+    blur!:ImageSharpEffects.BlurEffect;
     public Draw() {
         let sb = this.spritBatch;
         this.blur.Config.sigma=2;
